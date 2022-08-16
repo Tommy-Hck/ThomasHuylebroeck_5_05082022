@@ -30,15 +30,19 @@ main();
 
 
 // je créé les éléments structurels de ma section
-// "La méthode forEach() permet d'exécuter une fonction donnée sur chaque élément du tableau.". Mozdev
+// création fonction productContainer pour ajouter mes éléments au html. paramètre(p)Produit pour récupérer l'id des articles
+//paramètre(p)ItemMain pour terminer la hierarchie des éléments
 function productContainer(pProduit, pItemMain) {
     let productId = document.createElement("a");
     productId.href = `./product.html?id=${pProduit._id}`;
     let productArticle = document.createElement("article");
     let productPicture = document.createElement("img");
-    productPicture.src= pProduit.imageUrl;
+    productPicture.src = pProduit.imageUrl;
+    productPicture.alt = pProduit.altTxt;
     let productName = document.createElement("h3");
+    productName.textContent = pProduit.name;
     let productDescription = document.createElement("p");
+    productDescription.textContent = pProduit.description;
     productArticle.appendChild(productPicture);
     productArticle.appendChild(productName);
     productArticle.appendChild(productDescription);
