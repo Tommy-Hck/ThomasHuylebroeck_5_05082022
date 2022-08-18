@@ -17,7 +17,7 @@ async function main() {
     for (let product of products) {
         console.log(product);
         //créer chaque article par rapport a une ligne des données serveur (createElement appendchild querySelector)
-        productContainer(product, itemsCard);
+        productContainer(product, itemsContainer);
 
         console.log(product.name);
     }
