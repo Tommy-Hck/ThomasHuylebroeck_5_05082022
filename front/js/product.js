@@ -4,9 +4,10 @@ let id = url.searchParams.get("id");
 console.log(`mon id = ${id}`);
 
 //récupérer l'id du produit
- (fetch)
-async function getProductById(pId) {
-    return await fetch(`http://localhost:3000/api/products/${pId}`)// pId parce qu'on récupère les paramètres de l'Id.
+ (fetch) 
+ async function getProductById(pId) {
+    // pId parce qu'on récupère les paramètres de l'Id.
+    return await fetch(`http://localhost:3000/api/products/${pId}`)
         .then((response) => response.json())
         .then((data) => { return data });
 }
@@ -21,15 +22,16 @@ main();
 //création d'une fonction pour afficher les éléments du produit
 function sofaContent (){
    let sofaImg = document.getElementsByClassName("item__img");
-   sofaImg.src = pProduit.imageUrl;
-   sofaImg.alt = pProduit.altTxt;
+   sofaImg.src = pId.imageUrl;
+   sofaImg.alt = pId.altTxt;
 
     let sofaDescription = document.getElementById("description");
     sofaDescription.textContent = pId.description;
 
-    let sofaColorSelection = document.getElementsByTagName("option");
-    sofaColorSelection = document.createElement("option");
-    sofaColorSelection.textContent = pId.colors;
+    let sofaColorSelection = document.getElementsByTagName("select");
+    for (i = 0; i < data.sofaColorSelection.length; i++) {
+        sofaColorSelection = document.createElement("option");
+      } 
 
     const colorClick = document.getElementsByTagName("option");
     colorClick.addEventListener('click', function(){
