@@ -1,4 +1,4 @@
-//création de variables pour récupérer l'id de ma pagz
+//création de variables pour récupérer l'id de ma page
 let url = new URL(window.location.href);
 let id = url.searchParams.get("id");
 console.log(`mon id = ${id}`);
@@ -19,8 +19,20 @@ async function main() {
 main();
 
 //création d'une fonction pour afficher les éléments du produit
-function sofa (){
+function sofaContent (){
    let sofaImg = document.getElementsByClassName("item__img");
    sofaImg.src = pProduit.imageUrl;
    sofaImg.alt = pProduit.altTxt;
+
+    let sofaDescription = document.getElementById("description");
+    sofaDescription.textContent = pId.description;
+
+    let sofaColorSelection = document.getElementsByTagName("option");
+    sofaColorSelection = document.createElement("option");
+    sofaColorSelection.textContent = pId.colors;
+
+    const colorClick = document.getElementsByTagName("option");
+    colorClick.addEventListener('click', function(){
+        colorClick.textContent = "click effectué!";
+    });
 }
