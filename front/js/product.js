@@ -35,6 +35,6 @@ function sofaContent (){
 
     const colorClick = document.getElementsByTagName("option");
     colorClick.addEventListener('click', function(){
-        colorClick.textContent = "click effectué!";
+        colorClick.textContent = pId.colors;
     });
 }
