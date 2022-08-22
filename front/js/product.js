@@ -25,16 +25,21 @@ function sofaContent (){
    sofaImg.src = pId.imageUrl;
    sofaImg.alt = pId.altTxt;
 
+   let sofaName = document.createElement("h1");
+   sofaName.textContent = pId.name;
+   
+   let sofaPrice = document.getElementById("price");
+   sofaPrice.textContent = pId.price;
+
     let sofaDescription = document.getElementById("description");
     sofaDescription.textContent = pId.description;
 
     let sofaColorSelection = document.getElementsByTagName("select");
-    for (i = 0; i < data.sofaColorSelection.length; i++) {
+    for (i = 0; [i] < data.sofaColorSelection.length; [i]++) {
         sofaColorSelection = document.createElement("option");
       } 
 
     const colorClick = document.getElementsByTagName("option");
     colorClick.addEventListener('click', function(){
-        colorClick.textContent = pId.colors;
     });
 }
