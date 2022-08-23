@@ -34,9 +34,11 @@ function sofaContent (){
     let sofaDescription = document.getElementById("description");
     sofaDescription.textContent = pId.description;
 
+    //création d'un élément option avec une boucle pour récupérer les couleurs. Manque l'ajout au panier?
     let sofaColorSelection = document.getElementsByTagName("select");
+    sofaColorSelection = document.createElement("option");
     for (i = 0; [i] < data.sofaColorSelection.length; [i]++) {
-        sofaColorSelection = document.createElement("option");
+        
       } 
 
     const colorClick = document.getElementsByTagName("option");
