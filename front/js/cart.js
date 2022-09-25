@@ -48,21 +48,46 @@ getCart();
 function cartContainer(pCartContent, pFetchContent) {
 
     let cartArticle = document.createElement("article");
+    cartArticle.className = "cart__item";
     cartArticle.href = `./product.html?id=${pCartContent._id}`;
+    let cartDescription = document.createElement("div");
+    cartDescription.className = "cart__item__img";
+    cartDescription.src = pProduit.imageUrl;
+    cartDescription.alt = pProduit.altTxt;
+    let cartItemContent = document.createElement("div");
+    cartItemContent.className = "cart__item__content";
+    let cartItemContentDescription = document.createElement("div");
+    cartItemContentDescription = "cart__item__content__description";
+    let itemName = document.createElement("h2");
+    itemName.textContent = pCart.name;
+    let itemColor = document.createElement("p");
+    itemColor = pCart.colors;
+    let itemPrice = document.createElement("p");
+    itemPrice = pCart.price;
+    let itemQty = document.createElement("div");
+    itemQty.className = "cart__item__content__settings";
+    let itemQtyDiv = document.createElement("div");
+    itemQtyDiv.className = "cart__item__content__settings__quantity";
+    let quantity = document.createElement("p");
+    quantity = pCart.quantity;
+    let changeQty = document.createElement("input");
+    changeQty.className = itemQuantity;
+    let deleteItemDiv = document.createElement("div");
+    deleteItemDiv.className = "cart__item__content__settings__delete";
+    let deleteItem = document.createElement("p");
+    deleteItem.className = "deleteItem";
 
+    cartItemContentDescription.appendChild(cartItemContent);
+    itemQtyDiv.appendChild(itemQty);
+    changeQty.appendChild(itemQtyDiv);
+    deleteItemDiv.appendChild(itemQty);
+    itemQty.appendchild(cartArticle)
+    cartItemContent.appendChild(cartArticle);
+    cartDescription.appendChild(cartArticle);
+}
 
+regex controle de surface
 
-    let cartImage = document.createElement("img");
-    cartImage.src = pFetchContent.imageUrl;
-    cartImage.alt = pFetchContent.altTxt;
-    let productName = document.createElement ("h2");
-    productName.textContent = pFetchContent.name;
-    let productColor = document.createElement ("p");
-    productColor.textContent = pCartContent.color;
-    let productPrice = document.createElement("p");
-    productPrice.textContent = pFetchContent.price;
-    let productQuantity = document.createElement("p");
-    productQuantity.textContent = pCartContent.quantity;
 
     // let totalProducts = document.querySelector("#totalQuantity");
     // totalProducts = pCart.
