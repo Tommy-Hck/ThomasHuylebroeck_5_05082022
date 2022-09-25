@@ -1,61 +1,70 @@
-//récupérer les données serveur (fetch)
-async function getProducts() {
-    return await fetch("http://localhost:3000/api/products")
-        .then((response) => response.json())
-        .then((data) => { return data });
-    //console.log(products);
+// function removeFromBasket(product, color) {
+//   let cart = getCart();
+//   cart = cart.filter(p => p.id != product.id && p.color != color)
+//   saveCart(cart);
+// }
+
+// function getNumberOfproduct() {
+//   let cart = getCart();
+//   let number = 0;
+//   for (let product of cart) {
+//     number += product.quantity;
+//   }
+//   return number;
+// }
+
+// function getTotalprice() {
+//   let cart = getCart();
+//   let total = 0;
+//   for (let product of cart) {
+//     total += product.quantity * product.price;
+//   }
+//   return total;
+// }
+
+
+async function getCart() {
+   let cart = JSON.parse(localStorage.getItem('cart'));
+   console.log(cart);
+   for (let content of cart) {
+       console.log(content);
+       let productByFetch = await getProductById(content.id);
+       console.log(productByFetch);
+   }
+//    const element = document.getElementById("myElement");
+//    const closest = element.closest('cart');
 }
 
-//fonction principale
-async function main() {
-    let products = await getProducts();
-    console.log(products);
-    let itemsCard = document.getElementById("items");// = document.querySelector ("#items")
-    //parcourir les données serveur (for of) (let product of products permets de séparer chaque ligne de products)
-    for (let product of products) {
-        console.log(product);
-        //créer chaque article par rapport a une ligne des données serveur (createElement appendchild querySelector)
-        productContainer(product, itemsContainer);
+async function getProductById(pId) {
+    // pId parce qu'on récupère les paramètres de l'Id.
+    return await fetch(`http://localhost:3000/api/products/${pId}`)
+      .then((response) => response.json())
+      .then((data) => { return data });
+  }
 
-        console.log(product.name);
-    }
-}
-//appel de la fonction principale
-main();
+getCart();
 
-function cartContainer(pCart) {
+
+function cartContainer(pCartContent, pFetchContent) {
 
     let cartArticle = document.createElement("article");
-    cartArticle.className = "cart__item";
-    cartArticle.href = `./product.html?id=${pCart._id}`;
-    cartArticle.
-    let cartDescription = document.createElement("div");
-    cartDescription.className = "cart__item__img";
-    cartDescription.src = pProduit.imageUrl;
-    cartDescription.alt = pProduit.altTxt;
-    let cartItemContent = document.createElement("div");
-    cartItemContent.className = "cart__item__content";
-    let cartItemContentDescription = document.createElement("div");
-    cartItemContentDescription = "cart__item__content__description";
-    let itemName = document.createElement("h2");
-    itemName.textContent = pCart.name;
-    let itemColor = document.createElement(p);
-    itemColor = pCart.colors;
-    let itemQty = document.createElement("div");
-    itemQty.className = "cart__item__content__settings";
+    cartArticle.href = `./product.html?id=${pCartContent._id}`;
 
-    // let productId = document.createElement("a");
-    // productId.href = `./product.html?id=${pProduit._id}`;
-    // let productPicture = document.createElement("img");
-    // productPicture.src = pProduit.imageUrl;
-    // productPicture.alt = pProduit.altTxt;
-    // let productName = document.createElement("h3");
-    // productName.textContent = pProduit.name;
-    // let productDescription = document.createElement("p");
-    // productDescription.textContent = pProduit.description;
-    // productArticle.appendChild(productPicture);
-    // productArticle.appendChild(productName);
-    // productArticle.appendChild(productDescription);
-    // productId.appendChild(productArticle);
-    // pItemMain.appendChild(productId);
+
+
+    let cartImage = document.createElement("img");
+    cartImage.src = pFetchContent.imageUrl;
+    cartImage.alt = pFetchContent.altTxt;
+    let productName = document.createElement ("h2");
+    productName.textContent = pFetchContent.name;
+    let productColor = document.createElement ("p");
+    productColor.textContent = pCartContent.color;
+    let productPrice = document.createElement("p");
+    productPrice.textContent = pFetchContent.price;
+    let productQuantity = document.createElement("p");
+    productQuantity.textContent = pCartContent.quantity;
+
+    // let totalProducts = document.querySelector("#totalQuantity");
+    // totalProducts = pCart.
+
 }
