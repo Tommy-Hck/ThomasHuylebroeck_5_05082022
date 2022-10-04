@@ -58,7 +58,7 @@ function cartContainer(pCartContent, pFetchContent) {
     cartArticle.dataset.id = pCartContent.id;
     cartArticle.dataset.color = pCartContent.color;
     document.querySelector("#cart__items").appendChild(cartArticle);
-// j'ai changé pCartContent par pFetchContent puisque je cherche l'élément du localstorage?
+// j'ai changé pCartContent par pFetchContent puisque je cherche l'élément du localstorage? en fait non.
 
 
     let cartItemImg = document.createElement("div");
@@ -119,22 +119,30 @@ function cartContainer(pCartContent, pFetchContent) {
 
 }
 
- function setPattern() {
+ function regex() {
 
     let firstName = document.querySelector("#firstName");
-    firstName.setAttribute("pattern", "[a-zA-Z-éèà]");
+    // firstName.setAttribute("pattern", "[a-zA-Z-éèà]");
+    firstName = regex (/^[a-zA-Z-éèà]/);
+
+    // New regExp c'est quoi?
+
 
     let lastName = document.querySelector("#lastName");
-    lastName.setAttribute("pattern", "[a-zA-Z-éèà]");
+    // lastName.setAttribute("pattern", "[a-zA-Z-éèà]");
+    lastName = regex (/^[a-zA-Z-éèà]/);
 
     let adress = document.querySelector("#adress");
-    adress.setAttribute("pattern", "[a-zA-Z-éèà]");
+    // adress.setAttribute("pattern", "[a-zA-Z-éèà]");
+    adress = regex (/^[0-9]+[a-zA-Z-éèà]/);
 
     let city = document.querySelector("#city");
-    city.setAttribute("pattern", "[a-zA-Z-éèà]");
+    // city.setAttribute("pattern", "[a-zA-Z-éèà]");
+    city = regex (/^[a-zA-Z-éèà]/);
 
-    let email = document.querySelector("#email");
-    email.setAttribute("pattern", "^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
+    let emailRegex = document.querySelector("#email");
+    // email.setAttribute("pattern", "^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
+    emailRegex = regex (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/);
 
     //créer une condition pour valider les informations de l'utilisateur avec un event (si: checkValidation valide => envoie vers le backend avec post?).
     // faire les regex sans les pattern.
