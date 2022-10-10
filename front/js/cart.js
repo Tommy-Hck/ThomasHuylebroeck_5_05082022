@@ -79,73 +79,95 @@ function cartContainer(pCartContent, pFetchContent) {
     cartItemContentSettings.appendChild(cartItemContentSettingsDelete);
 }
 
- function testRegexFirstName(pElement) {
+// fonction pour supprimer un produit
+    function deleteProduct () {
+        let deleteBtn = document.querySelector(".deleteItem");
+        deleteBtn.addEventListener('click', (ev) =>{
+            // preventDefault évite à la page de rafraichir après le click
+            ev.preventDefault();
+            const deleteId = cart.id;
+            const deleteColor = cart.color;
 
-    let firstName = document.querySelector("#firstname");
-    let regexFirstName = new RegExp (/^[a-zA-Z-éèà]/);
-    let firstNameTest = regexFirstName.test(firstName.value);
-        return firstNameTest;
-    }
+            cart = cart.filter (el => cartContent.id !== deleteId || cartContent.color !== deleteColor);
+            localStorage.setItem("cart", JSON.stringify(produitLocalStorage));
 
-    const firstNameErrorMsg = document.querySelector("#firstNameErrorMsg");
-    firstNameErrorMsg
-
-    function testRegexLastName(pElement) {
-
-        let lastName = document.querySelector("#lastName");
-        let regexLastName = new RegExp (/^[a-zA-Z-éèà]/);
-        let regexLastNameTest = regexLastName.test(lastName.value);
-        return regexLastNameTest;
-    }
-
-
-    function testRegexAdress (pElement) {
-
-        let adress = document.querySelector("#adress");
-        let regexAdress = new RegExp (/^[0-9]+[a-zA-Z-éèà]/)
-        let regexAdressTest = regexAdress.test(adress.value);
-        return regexAdressTest;
-    }
-
-    function testRegexAdress (pElement) {
-
-        let city = document.querySelector("#city");
-        let regexCity = new RegExp (/^[a-zA-Z-éèà]/);
-        let regexCityTest = regexCity.test (city.value);
-        return regexCityTest;
-    }
-
-    function testRegexEmail (pElement) {
-
-        let email = document.querySelector("#email");
-        let regexEmail = new RegExp (/^[a-zA-Z-éèà]/);
-        let regexEmailTest = regexEmail.test (email.value);
-        return regexEmailTest;
-    }
-    
-
-
-    // const orderBtn = document.querySelector("#order");
-    // orderBtn.addEventListener('click', (ev) => {
-    //   if (quantity.value < 1 || quantity.value > 100) {
-    //     alert("veuillez entrer une quantité entre 1 et 100");
-    //     alert(quantity.value);
-    //     return;
-  
-    //   }
-
-    //   fonction utilisant la methode "post" pour envoyer le formulaire vers le LS
-
-    function postForm (){
-        const orderBtn = document.querySelector("#order")
-        orderBtn.addEventListener('click', (ev) => {
-            let firstNameField = document.querySelector("#firstname");
-            let lastNameField = document.querySelector("#lastName");
-            let adressField = document.querySelector("#adress");
-            let cityField = document.querySelector("#city");
-            let emailField = document.querySelector("#email");
+            //Alert produit supprimé et rafrachir
+            alert("Ce produit a été supprimé du panier");
+            location.reload();
         }
     }
+
+    function testRegexFirstName(pElement) {
+
+    let firstName = document.querySelector("#firstname");
+    let regexFirstName = new RegExp(/^[a-zA-Z-éèà]/);
+    let firstNameTest = regexFirstName.test(firstName.value);
+    return firstNameTest;
+}
+// CREER ICI LES MESSAGES D'ERREUR
+// const firstNameErrorMsg = document.querySelector("#firstNameErrorMsg");
+// firstNameErrorMsg
+
+function testRegexLastName(pElement) {
+
+    let lastName = document.querySelector("#lastName");
+    let regexLastName = new RegExp(/^[a-zA-Z-éèà]/);
+    let regexLastNameTest = regexLastName.test(lastName.value);
+    return regexLastNameTest;
+}
+
+
+function testRegexAdress(pElement) {
+
+    let adress = document.querySelector("#adress");
+    let regexAdress = new RegExp(/^[0-9]+[a-zA-Z-éèà]/)
+    let regexAdressTest = regexAdress.test(adress.value);
+    return regexAdressTest;
+}
+
+function testRegexAdress(pElement) {
+
+    let city = document.querySelector("#city");
+    let regexCity = new RegExp(/^[a-zA-Z-éèà]/);
+    let regexCityTest = regexCity.test(city.value);
+    return regexCityTest;
+}
+
+function testRegexEmail(pElement) {
+
+    let email = document.querySelector("#email");
+    let regexEmail = new RegExp(/^[a-zA-Z-éèà]/);
+    let regexEmailTest = regexEmail.test(email.value);
+    return regexEmailTest;
+}
+
+
+
+
+
+
+//   fonction utilisant la methode "post" pour envoyer le formulaire vers le LS
+
+function postForm() {
+
+    // constante pour selectionner mon bouton puis j'écoute au click et je récupère les données
+    const orderBtn = document.querySelector("#order");
+    orderBtn.addEventListener('click', (ev) => {
+
+        ev.preventDefault();
+
+        let firstNameField = document.querySelector("#firstname");
+        let lastNameField = document.querySelector("#lastName");
+        let adressField = document.querySelector("#adress");
+        let cityField = document.querySelector("#city");
+        let emailField = document.querySelector("#email");
+    }
+    }
+
+
+    // FONCTION BOUTON DELETE
+    // MESSAGES D'ERREUR
+    // FONTCION POST
 
 // function removeFromBasket(product, color) {
 //   let cart = getCart();
