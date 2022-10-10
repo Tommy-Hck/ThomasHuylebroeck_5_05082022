@@ -1,30 +1,3 @@
-// function removeFromBasket(product, color) {
-//   let cart = getCart();
-//   cart = cart.filter(p => p.id != product.id && p.color != color)
-//   saveCart(cart);
-// }
-
-// function getTotalprice() {
-//   let cart = getCart();
-//   let total = 0;
-//   for (let product of cart) {
-//     total += product.quantity * product.price;
-//   }
-//   return total;
-// }
-
-   // let totalProducts = document.querySelector("#totalQuantity");
-    // totalProducts = pCart.
-
-    function getTotal() {
-        let cart = getCart();
-        let total = 0;
-        for (let product of cart) {
-            total += product.quantity * product.price;
-        }
-        return total;
-    }
-
 async function getCart() {
     let cart = JSON.parse(localStorage.getItem('cart'));
     console.log(cart);
@@ -50,7 +23,7 @@ async function getProductById(pId) {
 getCart();
 
 
-
+//  création de la fonction pour implémenter mon html avec les éléments du LS (pCartContent) et du LH (pFetchContent)
 function cartContainer(pCartContent, pFetchContent) {
 
     let cartArticle = document.createElement("article");
@@ -58,7 +31,6 @@ function cartContainer(pCartContent, pFetchContent) {
     cartArticle.dataset.id = pCartContent.id;
     cartArticle.dataset.color = pCartContent.color;
     document.querySelector("#cart__items").appendChild(cartArticle);
-// j'ai changé pCartContent par pFetchContent puisque je cherche l'élément du localstorage? en fait non.
 
 
     let cartItemImg = document.createElement("div");
@@ -78,7 +50,6 @@ function cartContainer(pCartContent, pFetchContent) {
     cartItemContentDescription.className = "cart__item__content__description";
     let itemName = document.createElement("h2");
     itemName.textContent = pFetchContent.name;
-    // pFetch pour le nom car dans mon LS je n'ai que l'id, la couleur et la quantité du produit
     let itemColor = document.createElement("p");
     itemColor.textContent = pCartContent.color;
     let itemPrice = document.createElement("p");
@@ -106,45 +77,99 @@ function cartContainer(pCartContent, pFetchContent) {
     deleteItem.className = "deleteItem";
     deleteItem.textContent = "supprimer";
     cartItemContentSettings.appendChild(cartItemContentSettingsDelete);
-
-    // cartItemContentDescription.appendChild(cartItemContent);
-    // itemQtyDiv.appendChild(itemQty);
-    // changeQty.appendChild(itemQtyDiv);
-    // deleteItemDiv.appendChild(itemQty);
-    // itemQty.appendchild(cartArticle)
-    // cartItemContent.appendChild(cartArticle);
-    // cartDescription.appendChild(cartArticle);
-    // document.querySelector("#cart__items").appendChild(cartArticle);
-
-
 }
 
- function regex() {
+ function testRegexFirstName(pElement) {
 
-    let firstName = document.querySelector("#firstName");
-    // firstName.setAttribute("pattern", "[a-zA-Z-éèà]");
-    firstName = regex (/^[a-zA-Z-éèà]/);
+    let firstName = document.querySelector("#firstname");
+    let regexFirstName = new RegExp (/^[a-zA-Z-éèà]/);
+    let firstNameTest = regexFirstName.test(firstName.value);
+        return firstNameTest;
+    }
 
-    // New regExp c'est quoi?
+    const firstNameErrorMsg = document.querySelector("#firstNameErrorMsg");
+    firstNameErrorMsg
+
+    function testRegexLastName(pElement) {
+
+        let lastName = document.querySelector("#lastName");
+        let regexLastName = new RegExp (/^[a-zA-Z-éèà]/);
+        let regexLastNameTest = regexLastName.test(lastName.value);
+        return regexLastNameTest;
+    }
 
 
-    let lastName = document.querySelector("#lastName");
-    // lastName.setAttribute("pattern", "[a-zA-Z-éèà]");
-    lastName = regex (/^[a-zA-Z-éèà]/);
+    function testRegexAdress (pElement) {
 
-    let adress = document.querySelector("#adress");
-    // adress.setAttribute("pattern", "[a-zA-Z-éèà]");
-    adress = regex (/^[0-9]+[a-zA-Z-éèà]/);
+        let adress = document.querySelector("#adress");
+        let regexAdress = new RegExp (/^[0-9]+[a-zA-Z-éèà]/)
+        let regexAdressTest = regexAdress.test(adress.value);
+        return regexAdressTest;
+    }
 
-    let city = document.querySelector("#city");
-    // city.setAttribute("pattern", "[a-zA-Z-éèà]");
-    city = regex (/^[a-zA-Z-éèà]/);
+    function testRegexAdress (pElement) {
 
-    let emailRegex = document.querySelector("#email");
-    // email.setAttribute("pattern", "^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
-    emailRegex = regex (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/);
+        let city = document.querySelector("#city");
+        let regexCity = new RegExp (/^[a-zA-Z-éèà]/);
+        let regexCityTest = regexCity.test (city.value);
+        return regexCityTest;
+    }
 
-    //créer une condition pour valider les informations de l'utilisateur avec un event (si: checkValidation valide => envoie vers le backend avec post?).
-    // faire les regex sans les pattern.
- }
+    function testRegexEmail (pElement) {
 
+        let email = document.querySelector("#email");
+        let regexEmail = new RegExp (/^[a-zA-Z-éèà]/);
+        let regexEmailTest = regexEmail.test (email.value);
+        return regexEmailTest;
+    }
+    
+
+
+    // const orderBtn = document.querySelector("#order");
+    // orderBtn.addEventListener('click', (ev) => {
+    //   if (quantity.value < 1 || quantity.value > 100) {
+    //     alert("veuillez entrer une quantité entre 1 et 100");
+    //     alert(quantity.value);
+    //     return;
+  
+    //   }
+
+    //   fonction utilisant la methode "post" pour envoyer le formulaire vers le LS
+
+    function postForm (){
+        const orderBtn = document.querySelector("#order")
+        orderBtn.addEventListener('click', (ev) => {
+            let firstNameField = document.querySelector("#firstname");
+            let lastNameField = document.querySelector("#lastName");
+            let adressField = document.querySelector("#adress");
+            let cityField = document.querySelector("#city");
+            let emailField = document.querySelector("#email");
+        }
+    }
+
+// function removeFromBasket(product, color) {
+//   let cart = getCart();
+//   cart = cart.filter(p => p.id != product.id && p.color != color)
+//   saveCart(cart);
+// }
+
+// function getTotalprice() {
+//   let cart = getCart();
+//   let total = 0;
+//   for (let product of cart) {
+//     total += product.quantity * product.price;
+//   }
+//   return total;
+// }
+
+   // let totalProducts = document.querySelector("#totalQuantity");
+    // totalProducts = pCart.
+
+    // function getTotal() {
+    //     let cart = getCart();
+    //     let total = 0;
+    //     for (let product of cart) {
+    //         total += product.quantity * product.price;
+    //     }
+    //     return total;
+    // }
