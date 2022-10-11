@@ -7,10 +7,6 @@ async function getCart() {
         console.log(productByFetch);
         cartContainer(content, productByFetch);
     }
-    //    const element = document.getElementById("myElement");
-    //    const closest = element.closest('cart');
-    //getTotal();
-    //setPattern();
 }
 
 async function getProductById(pId) {
@@ -38,22 +34,28 @@ function cartContainer(pCartContent, pFetchContent) {
     let cartImg = document.createElement("img");
     cartImg.src = pFetchContent.imageUrl;
     cartImg.alt = pFetchContent.altTxt;
+    cartItemImg.appendChild(cartImg);
     cartArticle.appendChild(cartItemImg);
 
 
     let cartItemContent = document.createElement("div");
     cartItemContent.className = "cart__item__content";
-    cartItemContent.appendChild(cartArticle);
+    cartArticle.appendChild(cartItemContent);
 
 
     let cartItemContentDescription = document.createElement("div");
     cartItemContentDescription.className = "cart__item__content__description";
     let itemName = document.createElement("h2");
     itemName.textContent = pFetchContent.name;
+    cartItemContentDescription.appendChild(itemName);
+
     let itemColor = document.createElement("p");
     itemColor.textContent = pCartContent.color;
+    cartItemContentDescription.appendChild(itemColor);
+
     let itemPrice = document.createElement("p");
-    itemPrice.textContent = pFetchContent.price;
+    itemPrice.textContent = pFetchContent.price + " €";
+    cartItemContentDescription.appendChild(itemPrice);
     cartItemContent.appendChild(cartItemContentDescription);
 
 
@@ -65,37 +67,44 @@ function cartContainer(pCartContent, pFetchContent) {
     let cartItemContentSettingsQty = document.createElement("div");
     cartItemContentSettingsQty.className = "cart__item__content__settings__quantity";
     let quantity = document.createElement("p");
-    quantity.value = pCartContent.quantity;
+    quantity.textContent = "Qté : ";
+    cartItemContentSettingsQty.appendChild(quantity);
     let changeQty = document.createElement("input");
     changeQty.className = "itemQuantity";
-    changeQty.value = pCartContent.quantity;
+    changeQty.name = "itemQuantity";
+    changeQty.min = "1";
+    changeQty.max = "100";
+    changeQty.setAttribute("type", "number");
+    changeQty.setAttribute("value", pCartContent.quantity);
+    cartItemContentSettingsQty.appendChild(changeQty);
     cartItemContentSettings.appendChild(cartItemContentSettingsQty);
 
     let cartItemContentSettingsDelete = document.createElement("div");
     cartItemContentSettingsDelete.className = "cart__item__content__settings__delete";
     let deleteItem = document.createElement("p");
     deleteItem.className = "deleteItem";
-    deleteItem.textContent = "supprimer";
+    deleteItem.textContent = "Supprimer";
+    cartItemContentSettingsDelete.appendChild(deleteItem);
     cartItemContentSettings.appendChild(cartItemContentSettingsDelete);
 }
 
 // fonction pour supprimer un produit
-    function deleteProduct () {
-        let deleteBtn = document.querySelector(".deleteItem");
-        deleteBtn.addEventListener('click', (ev) =>{
-            // preventDefault évite à la page de rafraichir après le click
-            ev.preventDefault();
-            const deleteId = cart.id;
-            const deleteColor = cart.color;
+    // function deleteProduct () {
+    //     let deleteBtn = document.querySelector(".deleteItem");
+    //     deleteBtn.addEventListener('click', (ev) =>{
+    //         // preventDefault évite à la page de rafraichir après le click
+    //         ev.preventDefault();
+    //         const deleteId = cart.id;
+    //         const deleteColor = cart.color;
 
-            cart = cart.filter (el => cartContent.id !== deleteId || cartContent.color !== deleteColor);
-            localStorage.setItem("cart", JSON.stringify(produitLocalStorage));
+    //         cart = cart.filter (el => cartContent.id !== deleteId || cartContent.color !== deleteColor);
+    //         localStorage.setItem("cart", JSON.stringify(produitLocalStorage));
 
-            //Alert produit supprimé et rafrachir
-            alert("Ce produit a été supprimé du panier");
-            location.reload();
-        }
-    }
+    //         //Alerte produit supprimé et rafrachir
+    //         alert("Ce produit a été supprimé du panier");
+    //         location.reload();
+    //     }
+    // )}
 
     function testRegexFirstName(pElement) {
 
@@ -106,7 +115,7 @@ function cartContainer(pCartContent, pFetchContent) {
 }
 // CREER ICI LES MESSAGES D'ERREUR
 // const firstNameErrorMsg = document.querySelector("#firstNameErrorMsg");
-// firstNameErrorMsg
+// firstNameErrorMsg = 
 
 function testRegexLastName(pElement) {
 
@@ -142,30 +151,30 @@ function testRegexEmail(pElement) {
 }
 
 
-
+// créer le bouton pour modifier la quantité
+// calcul des totaux
+// post
 
 
 
 //   fonction utilisant la methode "post" pour envoyer le formulaire vers le LS
 
-function postForm() {
+// function postForm() {
 
     // constante pour selectionner mon bouton puis j'écoute au click et je récupère les données
-    const orderBtn = document.querySelector("#order");
-    orderBtn.addEventListener('click', (ev) => {
+    // const orderBtn = document.querySelector("#order");
+    // orderBtn.addEventListener('click', (ev) => {
 
-        ev.preventDefault();
+    //     ev.preventDefault();
 
-        let firstNameField = document.querySelector("#firstname");
-        let lastNameField = document.querySelector("#lastName");
-        let adressField = document.querySelector("#adress");
-        let cityField = document.querySelector("#city");
-        let emailField = document.querySelector("#email");
-    }
-    }
+    //     let firstNameField = document.querySelector("#firstname");
+    //     let lastNameField = document.querySelector("#lastName");
+    //     let adressField = document.querySelector("#adress");
+    //     let cityField = document.querySelector("#city");
+    //     let emailField = document.querySelector("#email");
+    // }
+    // )}
 
-
-    // FONCTION BOUTON DELETE
     // MESSAGES D'ERREUR
     // FONTCION POST
 
