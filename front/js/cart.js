@@ -1,3 +1,5 @@
+//  ----------------------Création de fonctions asynchrones pour récupérer les éléments du panier pour la première et du LocalHost pour la deuxème ----------------------
+
 async function getCart() {
     let cart = JSON.parse(localStorage.getItem('cart'));
     console.log(cart);
@@ -6,6 +8,7 @@ async function getCart() {
         let productByFetch = await getProductById(content.id);
         console.log(productByFetch);
         cartContainer(content, productByFetch);
+        // removeFromBasket(content);
     }
 }
 
@@ -16,10 +19,18 @@ async function getProductById(pId) {
         .then((data) => { return data });
 }
 
+//                                                   ---------------------- FIN DES FONCTIONS FETCH ----------------------
+
+
+
+//                                                      ----------------------APPEL DES FONCTIONS ----------------------
+
 getCart();
 
 
-//  création de la fonction pour implémenter mon html avec les éléments du LS (pCartContent) et du LH (pFetchContent)
+// ---------------------- création de la fonction pour implémenter mon html avec les éléments du LS (pCartContent) et du LH (pFetchContent) ----------------------
+
+
 function cartContainer(pCartContent, pFetchContent) {
 
     let cartArticle = document.createElement("article");
@@ -88,30 +99,82 @@ function cartContainer(pCartContent, pFetchContent) {
     cartItemContentSettings.appendChild(cartItemContentSettingsDelete);
 }
 
-// fonction pour supprimer un produit
-    // function deleteProduct () {
-    //     let deleteBtn = document.querySelector(".deleteItem");
-    //     deleteBtn.addEventListener('click', (ev) =>{
-    //         // preventDefault évite à la page de rafraichir après le click
-    //         ev.preventDefault();
-    //         const deleteId = cart.id;
-    //         const deleteColor = cart.color;
+//                                             ---------------------- Fin de la fonction  ----------------------
 
-    //         cart = cart.filter (el => cartContent.id !== deleteId || cartContent.color !== deleteColor);
-    //         localStorage.setItem("cart", JSON.stringify(produitLocalStorage));
 
-    //         //Alerte produit supprimé et rafrachir
-    //         alert("Ce produit a été supprimé du panier");
-    //         location.reload();
-    //     }
-    // )}
 
-    function testRegexFirstName(pElement) {
+
+//                                  ----------------------Création de la fonction pour supprimer un produit----------------------
+
+function removeFromBasket(){
+    const deleteProduct = document.querySelectorAll(".deleteItem");
+    deleteProduct.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        const element = deleteProduct.closest('cart__item');
+        // element.shift();
+        // element.pop();
+         storage.removeItem(element.id, element.color);
+
+        //Alerte produit supprimé et rafrachir
+        alert("Ce produit a été supprimé du panier");
+        location.reload();
+    })
+}
+
+//                                          ----------------------Fin de la fonction de suppression----------------------
+
+
+
+//                                  ----------------------Création de la fonction pour changer la quantité d'un produit----------------------
+
+
+
+
+//                                          ----------------------Fin de la fonction de quantité----------------------
+
+
+
+//                                  ----------------------Création de la fonction de calcul des totaux----------------------
+
+//     function totalProducts(){ 
+//     total = document.querySelector("#totalQuantity");
+//     let cart =getCart();
+//     let total = 0;
+//     for (let product of cart) {
+//         total += product.length;
+//         return total;
+//     }
+// }
+
+
+function getTotal() {
+    let cart = getCart();
+    let total = document.querySelector
+
+    total = 0;
+    for (let product of cart) {
+        total += product.quantity * product.price;
+    }
+    return total;
+}
+
+
+
+//                                          ----------------------Fin de la fonction de suppression----------------------
+
+
+
+//                                           ----------------------Création de la fonction des Regex----------------------
+
+
+
+function testRegexFirstName(pElement) {
 
     let firstName = document.querySelector("#firstname");
     let regexFirstName = new RegExp(/^[a-zA-Z-éèà]/);
     let firstNameTest = regexFirstName.test(firstName.value);
     return firstNameTest;
+    
 }
 // CREER ICI LES MESSAGES D'ERREUR
 // const firstNameErrorMsg = document.querySelector("#firstNameErrorMsg");
@@ -150,10 +213,16 @@ function testRegexEmail(pElement) {
     return regexEmailTest;
 }
 
+//                                          ----------------------Fin de la fonction des Regex----------------------
+
+
+
 
 // créer le bouton pour modifier la quantité
 // calcul des totaux
 // post
+
+
 
 
 
@@ -175,14 +244,6 @@ function testRegexEmail(pElement) {
     // }
     // )}
 
-    // MESSAGES D'ERREUR
-    // FONTCION POST
-
-// function removeFromBasket(product, color) {
-//   let cart = getCart();
-//   cart = cart.filter(p => p.id != product.id && p.color != color)
-//   saveCart(cart);
-// }
 
 // function getTotalprice() {
 //   let cart = getCart();
@@ -193,14 +254,3 @@ function testRegexEmail(pElement) {
 //   return total;
 // }
 
-   // let totalProducts = document.querySelector("#totalQuantity");
-    // totalProducts = pCart.
-
-    // function getTotal() {
-    //     let cart = getCart();
-    //     let total = 0;
-    //     for (let product of cart) {
-    //         total += product.quantity * product.price;
-    //     }
-    //     return total;
-    // }
