@@ -90,6 +90,21 @@ function cartContainer(pCartContent, pFetchContent) {
     cartItemContentSettingsQty.appendChild(changeQty);
     cartItemContentSettings.appendChild(cartItemContentSettingsQty);
 
+    itemQuantity.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        const lessQty = itemQuantity.closest('article');
+        let minQty = lessQty.getAttribute('min');
+        alert(minQty);
+        let maxQty = lessQty.getAttribute('max');
+        alert(maxQty);
+        elementToDelete.remove();
+
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        let filteredCart = cart.filter(p => !(p.id == articleId && p.color == articleColor));
+        saveCart(filteredCart);
+    })
+}
+
     let cartItemContentSettingsDelete = document.createElement("div");
     cartItemContentSettingsDelete.className = "cart__item__content__settings__delete";
     let deleteItem = document.createElement("p");
@@ -97,40 +112,22 @@ function cartContainer(pCartContent, pFetchContent) {
     deleteItem.textContent = "Supprimer";
     cartItemContentSettingsDelete.appendChild(deleteItem);
     cartItemContentSettings.appendChild(cartItemContentSettingsDelete);
-}
+
+    deleteItem.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        const elementToDelete = deleteItem.closest('article');
+        let articleId = elementToDelete.getAttribute('data-id');
+        alert(articleId);
+        let articleColor = elementToDelete.getAttribute('data-color');
+        alert(articleColor);
+        elementToDelete.remove();
+
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        let filteredCart = cart.filter(p => !(p.id == articleId && p.color == articleColor));
+        saveCart(filteredCart);
+    })
 
 //                                             ---------------------- Fin de la fonction  ----------------------
-
-
-
-
-//                                  ----------------------Création de la fonction pour supprimer un produit----------------------
-
-function removeFromBasket(){
-    const deleteProduct = document.querySelectorAll(".deleteItem");
-    deleteProduct.addEventListener('click', (ev) => {
-        ev.preventDefault();
-        const element = deleteProduct.closest('cart__item');
-        // element.shift();
-        // element.pop();
-         storage.removeItem(element.id, element.color);
-
-        //Alerte produit supprimé et rafrachir
-        alert("Ce produit a été supprimé du panier");
-        location.reload();
-    })
-}
-
-//                                          ----------------------Fin de la fonction de suppression----------------------
-
-
-
-//                                  ----------------------Création de la fonction pour changer la quantité d'un produit----------------------
-
-
-
-
-//                                          ----------------------Fin de la fonction de quantité----------------------
 
 
 
@@ -147,16 +144,16 @@ function removeFromBasket(){
 // }
 
 
-function getTotal() {
-    let cart = getCart();
-    let total = document.querySelector
+// function getTotal() {
+//     let cart = getCart();
+//     let total = document.querySelector
 
-    total = 0;
-    for (let product of cart) {
-        total += product.quantity * product.price;
-    }
-    return total;
-}
+//     total = 0;
+//     for (let product of cart) {
+//         total += product.quantity * product.price;
+//     }
+//     return total;
+// }
 
 
 
@@ -236,7 +233,16 @@ function testRegexEmail(pElement) {
 
     //     ev.preventDefault();
 
-    //     let firstNameField = document.querySelector("#firstname");
+    //     let firstNameFielfunction getTotal() {
+//     let cart = getCart();
+//     let total = document.querySelector
+
+//     total = 0;
+//     for (let product of cart) {
+//         total += product.quantity * product.price;
+//     }
+//     return total;
+// }d = document.querySelector("#firstname");
     //     let lastNameField = document.querySelector("#lastName");
     //     let adressField = document.querySelector("#adress");
     //     let cityField = document.querySelector("#city");
