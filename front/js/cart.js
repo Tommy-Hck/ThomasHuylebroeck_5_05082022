@@ -27,6 +27,12 @@ async function getProductById(pId) {
 
 getCart();
 
+//fonction pour sauvegarder mon produit dans le localstorage. JSON.stringify pour transformer mes données en Json, parse pour les remettre en JS
+function saveCart(cart) {
+    localStorage.setItem("cart", JSON.stringify(cart)); //stringify transforme la chaine de caracteres javascript en json
+    //setitem du storage permet d'ajouter la clé et la valeur au local storage 
+  }
+
 
 // ---------------------- création de la fonction pour implémenter mon html avec les éléments du LS (pCartContent) et du LH (pFetchContent) ----------------------
 
@@ -90,20 +96,23 @@ function cartContainer(pCartContent, pFetchContent) {
     cartItemContentSettingsQty.appendChild(changeQty);
     cartItemContentSettings.appendChild(cartItemContentSettingsQty);
 
-    itemQuantity.addEventListener('click', (ev) => {
+    changeQty.addEventListener('click', (ev) => {
         ev.preventDefault();
-        const lessQty = itemQuantity.closest('article');
-        let minQty = lessQty.getAttribute('min');
-        alert(minQty);
-        let maxQty = lessQty.getAttribute('max');
-        alert(maxQty);
-        elementToDelete.remove();
+        const article = ev.target.closest('article');
+        let qty = ev.target.value;
+        alert(qty);
+        let articleId = article.getAttribute('data-id');
+        alert(articleId);
+        let articleColor = article.getAttribute('data-color');
+        alert(articleColor);
 
         let cart = JSON.parse(localStorage.getItem('cart'));
-        let filteredCart = cart.filter(p => !(p.id == articleId && p.color == articleColor));
-        saveCart(filteredCart);
+        let foundCart = cart.find(p => (p.id == articleId && p.color == articleColor));
+        foundCart.quantity = qty;
+        saveCart(foundCart);
+// findindex et splice
     })
-}
+
 
     let cartItemContentSettingsDelete = document.createElement("div");
     cartItemContentSettingsDelete.className = "cart__item__content__settings__delete";
@@ -126,7 +135,7 @@ function cartContainer(pCartContent, pFetchContent) {
         let filteredCart = cart.filter(p => !(p.id == articleId && p.color == articleColor));
         saveCart(filteredCart);
     })
-
+}
 //                                             ---------------------- Fin de la fonction  ----------------------
 
 
