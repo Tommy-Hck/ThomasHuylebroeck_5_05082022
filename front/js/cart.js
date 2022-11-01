@@ -46,13 +46,13 @@ function cartContainer(pCartContent, pFetchContent) {
     document.querySelector("#cart__items").appendChild(cartArticle);
 
 
-    let cartItemImg = document.createElement("div");
-    cartItemImg.className = "cart__item__img";
-    let cartImg = document.createElement("img");
-    cartImg.src = pFetchContent.imageUrl;
-    cartImg.alt = pFetchContent.altTxt;
-    cartItemImg.appendChild(cartImg);
-    cartArticle.appendChild(cartItemImg);
+    let cartImage = document.createElement("div");
+    cartImage.className = "cart__item__img";
+    let cartImage = document.createElement("img");
+    cartImage.src = pFetchContent.imageUrl;
+    cartImage.alt = pFetchContent.altTxt;
+    cartImage.appendChild(cartImage);
+    cartArticle.appendChild(cartImage);
 
 
     let cartItemContent = document.createElement("div");
@@ -60,32 +60,32 @@ function cartContainer(pCartContent, pFetchContent) {
     cartArticle.appendChild(cartItemContent);
 
 
-    let cartItemContentDescription = document.createElement("div");
-    cartItemContentDescription.className = "cart__item__content__description";
+    let itemDescription = document.createElement("div");
+    itemDescription.className = "cart__item__content__description";
     let itemName = document.createElement("h2");
     itemName.textContent = pFetchContent.name;
-    cartItemContentDescription.appendChild(itemName);
+    itemDescription.appendChild(itemName);
 
     let itemColor = document.createElement("p");
     itemColor.textContent = pCartContent.color;
-    cartItemContentDescription.appendChild(itemColor);
+    itemDescription.appendChild(itemColor);
 
     let itemPrice = document.createElement("p");
     itemPrice.textContent = pFetchContent.price + " €";
-    cartItemContentDescription.appendChild(itemPrice);
-    cartItemContent.appendChild(cartItemContentDescription);
+    itemDescription.appendChild(itemPrice);
+    cartItemContent.appendChild(itemDescription);
 
 
-    let cartItemContentSettings = document.createElement("div");
-    cartItemContentSettings.className = "cart__item__content__settings";
-    cartItemContent.appendChild(cartItemContentSettings);
+    let itemSettings = document.createElement("div");
+    itemSettings.className = "cart__item__content__settings";
+    cartItemContent.appendChild(itemSettings);
 
 
-    let cartItemContentSettingsQty = document.createElement("div");
-    cartItemContentSettingsQty.className = "cart__item__content__settings__quantity";
+    let itemSettingsQty = document.createElement("div");
+    itemSettingsQty.className = "cart__item__content__settings__quantity";
     let quantity = document.createElement("p");
     quantity.textContent = "Qté : ";
-    cartItemContentSettingsQty.appendChild(quantity);
+    itemSettingsQty.appendChild(quantity);
     let changeQty = document.createElement("input");
     changeQty.className = "itemQuantity";
     changeQty.name = "itemQuantity";
@@ -93,34 +93,35 @@ function cartContainer(pCartContent, pFetchContent) {
     changeQty.max = "100";
     changeQty.setAttribute("type", "number");
     changeQty.setAttribute("value", pCartContent.quantity);
-    cartItemContentSettingsQty.appendChild(changeQty);
-    cartItemContentSettings.appendChild(cartItemContentSettingsQty);
+    itemSettingsQty.appendChild(changeQty);
+    itemSettings.appendChild(itemSettingsQty);
 
-    changeQty.addEventListener('click', (ev) => {
-        ev.preventDefault();
-        const article = ev.target.closest('article');
-        let qty = ev.target.value;
-        alert(qty);
-        let articleId = article.getAttribute('data-id');
-        alert(articleId);
-        let articleColor = article.getAttribute('data-color');
-        alert(articleColor);
+    // changeQty.addEventListener('click', (ev) => {
+    //     ev.preventDefault();
+    //     const article = ev.target.closest('article');
+    //     let qty = ev.target.value;
+    //     alert(qty);
+    //     let articleId = article.getAttribute('data-id');
+    //     alert(articleId);
+    //     let articleColor = article.getAttribute('data-color');
+    //     alert(articleColor);
 
-        let cart = JSON.parse(localStorage.getItem('cart'));
-        let foundCart = cart.find(p => (p.id == articleId && p.color == articleColor));
-        foundCart.quantity = qty;
-        saveCart(foundCart);
+    //     let cart = JSON.parse(localStorage.getItem('cart'));
+    //     let foundCart = cart.findIndex(changeQty);
+    //     foundCart.quantity = qty;
+    //     cart.splice(article);
+    //     saveCart(foundCart);
 // findindex et splice
-    })
+    }//)
 
 
-    let cartItemContentSettingsDelete = document.createElement("div");
-    cartItemContentSettingsDelete.className = "cart__item__content__settings__delete";
+    let itemToDelete = document.createElement("div");
+    itemToDelete.className = "cart__item__content__settings__delete";
     let deleteItem = document.createElement("p");
     deleteItem.className = "deleteItem";
     deleteItem.textContent = "Supprimer";
-    cartItemContentSettingsDelete.appendChild(deleteItem);
-    cartItemContentSettings.appendChild(cartItemContentSettingsDelete);
+    itemToDelete.appendChild(deleteItem);
+    itemSettings.appendChild(itemToDelete);
 
     deleteItem.addEventListener('click', (ev) => {
         ev.preventDefault();
@@ -135,7 +136,7 @@ function cartContainer(pCartContent, pFetchContent) {
         let filteredCart = cart.filter(p => !(p.id == articleId && p.color == articleColor));
         saveCart(filteredCart);
     })
-}
+//}
 //                                             ---------------------- Fin de la fonction  ----------------------
 
 
@@ -179,6 +180,7 @@ function testRegexFirstName(pElement) {
     let firstName = document.querySelector("#firstname");
     let regexFirstName = new RegExp(/^[a-zA-Z-éèà]/);
     let firstNameTest = regexFirstName.test(firstName.value);
+    alert('veuillez utiliser un prénom valide');
     return firstNameTest;
     
 }
