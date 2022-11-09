@@ -28,10 +28,10 @@ async function getProductById(pId) {
 getCart();
 
 //fonction pour sauvegarder mon produit dans le localstorage. JSON.stringify pour transformer mes données en Json, parse pour les remettre en JS
-function saveCart(cart) {
-    localStorage.setItem("cart", JSON.stringify(cart)); //stringify transforme la chaine de caracteres javascript en json
+ function saveCart(cart) {
+     localStorage.setItem("cart", JSON.stringify(cart)); //stringify transforme la chaine de caracteres javascript en json
     //setitem du storage permet d'ajouter la clé et la valeur au local storage 
-  }
+   }
 
 
 // ---------------------- création de la fonction pour implémenter mon html avec les éléments du LS (pCartContent) et du LH (pFetchContent) ----------------------
@@ -48,11 +48,12 @@ function cartContainer(pCartContent, pFetchContent) {
 
     let cartImage = document.createElement("div");
     cartImage.className = "cart__item__img";
-    let cartImage = document.createElement("img");
-    cartImage.src = pFetchContent.imageUrl;
-    cartImage.alt = pFetchContent.altTxt;
-    cartImage.appendChild(cartImage);
+    let cartImg = document.createElement("img");
+    cartImg.src = pFetchContent.imageUrl;
+    cartImg.alt = pFetchContent.altTxt;
+    cartImg.appendChild(cartImage);
     cartArticle.appendChild(cartImage);
+    
 
 
     let cartItemContent = document.createElement("div");
@@ -96,23 +97,23 @@ function cartContainer(pCartContent, pFetchContent) {
     itemSettingsQty.appendChild(changeQty);
     itemSettings.appendChild(itemSettingsQty);
 
-    // changeQty.addEventListener('click', (ev) => {
-    //     ev.preventDefault();
-    //     const article = ev.target.closest('article');
-    //     let qty = ev.target.value;
-    //     alert(qty);
-    //     let articleId = article.getAttribute('data-id');
-    //     alert(articleId);
-    //     let articleColor = article.getAttribute('data-color');
-    //     alert(articleColor);
+     changeQty.addEventListener('click', (ev) => { //n'empêche pas 'laffichage du produit ok.
+         ev.preventDefault(); //n'empêche pas 'laffichage du produit ok.
+         const article = ev.target.closest('article'); //n'empêche pas 'laffichage du produit ok.
+         let qty = ev.target.value; //n'empêche pas 'laffichage du produit ok.
+         alert(qty); //n'empêche pas 'laffichage du produit ok.
+         let articleId = article.getAttribute('data-id'); //n'empêche pas 'laffichage du produit ok.
+         alert(articleId); //n'empêche pas 'laffichage du produit ok.
+         let articleColor = article.getAttribute('data-color'); //n'empêche pas 'laffichage du produit ok.
+         alert(articleColor); //n'empêche pas 'laffichage du produit ok.
 
-    //     let cart = JSON.parse(localStorage.getItem('cart'));
-    //     let foundCart = cart.findIndex(changeQty);
-    //     foundCart.quantity = qty;
-    //     cart.splice(article);
-    //     saveCart(foundCart);
+         let cart = JSON.parse(localStorage.getItem('cart')); //n'empêche pas 'laffichage du produit ok.
+         let foundCart = cart.findIndex(changeQty); //n'empêche pas 'laffichage du produit ok.
+         foundCart.quantity = qty; //n'empêche pas 'laffichage du produit ok.
+         cart.splice(article); //n'empêche pas 'laffichage du produit ok.
+         saveCart(foundCart);
 // findindex et splice
-    }//)
+    })
 
 
     let itemToDelete = document.createElement("div");
@@ -136,7 +137,7 @@ function cartContainer(pCartContent, pFetchContent) {
         let filteredCart = cart.filter(p => !(p.id == articleId && p.color == articleColor));
         saveCart(filteredCart);
     })
-//}
+}
 //                                             ---------------------- Fin de la fonction  ----------------------
 
 
@@ -180,6 +181,7 @@ function testRegexFirstName(pElement) {
     let firstName = document.querySelector("#firstname");
     let regexFirstName = new RegExp(/^[a-zA-Z-éèà]/);
     let firstNameTest = regexFirstName.test(firstName.value);
+    firstNameErrorMsg
     alert('veuillez utiliser un prénom valide');
     return firstNameTest;
     
@@ -193,6 +195,7 @@ function testRegexLastName(pElement) {
     let lastName = document.querySelector("#lastName");
     let regexLastName = new RegExp(/^[a-zA-Z-éèà]/);
     let regexLastNameTest = regexLastName.test(lastName.value);
+    lastNameErrorMsg
     return regexLastNameTest;
 }
 
@@ -202,6 +205,7 @@ function testRegexAdress(pElement) {
     let adress = document.querySelector("#adress");
     let regexAdress = new RegExp(/^[0-9]+[a-zA-Z-éèà]/)
     let regexAdressTest = regexAdress.test(adress.value);
+    addressErrorMsg
     return regexAdressTest;
 }
 
@@ -210,6 +214,7 @@ function testRegexAdress(pElement) {
     let city = document.querySelector("#city");
     let regexCity = new RegExp(/^[a-zA-Z-éèà]/);
     let regexCityTest = regexCity.test(city.value);
+    cityErrorMsg
     return regexCityTest;
 }
 
@@ -218,8 +223,12 @@ function testRegexEmail(pElement) {
     let email = document.querySelector("#email");
     let regexEmail = new RegExp(/^[a-zA-Z-éèà]/);
     let regexEmailTest = regexEmail.test(email.value);
+    emailErrorMsg
     return regexEmailTest;
 }
+
+// const orderBtn = document.querySelector('#order');
+// location.href = "confirmation.html";
 
 //                                          ----------------------Fin de la fonction des Regex----------------------
 
