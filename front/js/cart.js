@@ -205,7 +205,10 @@ function testRegexAdress(pElement) {
     let adress = document.querySelector("#adress");
     let regexAdress = new RegExp(/^[0-9]+[a-zA-Z-éèà]/)
     let regexAdressTest = regexAdress.test(adress.value);
-    addressErrorMsg
+    let errorMsg = document.querySelector('#addressErrorMsg')
+    errorMsg.textContent = 'Veuillez utiliser une adresse valide';
+    adress.focus;
+    return false;
     return regexAdressTest;
 }
 
