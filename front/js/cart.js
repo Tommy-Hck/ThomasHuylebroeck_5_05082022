@@ -28,10 +28,10 @@ async function getProductById(pId) {
 getCart();
 
 //fonction pour sauvegarder mon produit dans le localstorage. JSON.stringify pour transformer mes données en Json, parse pour les remettre en JS
- function saveCart(cart) {
-     localStorage.setItem("cart", JSON.stringify(cart)); //stringify transforme la chaine de caracteres javascript en json
+function saveCart(cart) {
+    localStorage.setItem("cart", JSON.stringify(cart)); //stringify transforme la chaine de caracteres javascript en json
     //setitem du storage permet d'ajouter la clé et la valeur au local storage 
-   }
+}
 
 
 // ---------------------- création de la fonction pour implémenter mon html avec les éléments du LS (pCartContent) et du LH (pFetchContent) ----------------------
@@ -53,7 +53,7 @@ function cartContainer(pCartContent, pFetchContent) {
     cartImg.alt = pFetchContent.altTxt;
     cartImg.appendChild(cartImage);
     cartArticle.appendChild(cartImage);
-    
+
 
 
     let cartItemContent = document.createElement("div");
@@ -97,22 +97,22 @@ function cartContainer(pCartContent, pFetchContent) {
     itemSettingsQty.appendChild(changeQty);
     itemSettings.appendChild(itemSettingsQty);
 
-     changeQty.addEventListener('click', (ev) => { //n'empêche pas 'laffichage du produit ok.
-         ev.preventDefault(); //n'empêche pas 'laffichage du produit ok.
-         const article = ev.target.closest('article'); //n'empêche pas 'laffichage du produit ok.
-         let qty = ev.target.value; //n'empêche pas 'laffichage du produit ok.
-         alert(qty); //n'empêche pas 'laffichage du produit ok.
-         let articleId = article.getAttribute('data-id'); //n'empêche pas 'laffichage du produit ok.
-         alert(articleId); //n'empêche pas 'laffichage du produit ok.
-         let articleColor = article.getAttribute('data-color'); //n'empêche pas 'laffichage du produit ok.
-         alert(articleColor); //n'empêche pas 'laffichage du produit ok.
+    changeQty.addEventListener('click', (ev) => { //n'empêche pas 'laffichage du produit ok.
+        ev.preventDefault(); //n'empêche pas 'laffichage du produit ok.
+        const article = ev.target.closest('article'); //n'empêche pas 'laffichage du produit ok.
+        let qty = ev.target.value; //n'empêche pas 'laffichage du produit ok.
+        alert(qty); //n'empêche pas 'laffichage du produit ok.
+        let articleId = article.getAttribute('data-id'); //n'empêche pas 'laffichage du produit ok.
+        alert(articleId); //n'empêche pas 'laffichage du produit ok.
+        let articleColor = article.getAttribute('data-color'); //n'empêche pas 'laffichage du produit ok.
+        alert(articleColor); //n'empêche pas 'laffichage du produit ok.
 
-         let cart = JSON.parse(localStorage.getItem('cart')); //n'empêche pas 'laffichage du produit ok.
-         let foundCart = cart.findIndex(changeQty); //n'empêche pas 'laffichage du produit ok.
-         foundCart.quantity = qty; //n'empêche pas 'laffichage du produit ok.
-         cart.splice(article); //n'empêche pas 'laffichage du produit ok.
-         saveCart(foundCart);
-// findindex et splice
+        //  let cart = JSON.parse(localStorage.getItem('cart')); //n'empêche pas 'laffichage du produit ok.
+        //  let foundCart = cart.findIndex(changeQty); //n'empêche pas 'laffichage du produit ok.
+        //  foundCart.quantity = qty; //n'empêche pas 'laffichage du produit ok.
+        //  cart.splice(article); //n'empêche pas 'laffichage du produit ok.
+        //  saveCart(foundCart);
+        // findindex et splice
     })
 
 
@@ -144,31 +144,31 @@ function cartContainer(pCartContent, pFetchContent) {
 
 //                                  ----------------------Création de la fonction de calcul des totaux----------------------
 
-//     function totalProducts(){ 
-//     total = document.querySelector("#totalQuantity");
-//     let cart =getCart();
-//     let total = 0;
-//     for (let product of cart) {
-//         total += product.length;
-//         return total;
+
+// function getTotals(){
+
+//     // Calcul de la quantité totale
+//     let kanapQuantity = document.getElementsByClassName('itemQuantity');
+//     let kanapLength = kanapQuantity.length,
+//     totalQuantity = 0;
+
+//     for (var i = 0; i < kanapLength; ++i) {
+//         totalQuantity += kanapQuantity[i].valueAsNumber;
+//     }
+
+//     let totalKanapQuantity = document.getElementById('totalQuantity');
+//     totalKanapQuantity.textContent = totalQuantity;
+
+//     // Calcul du prix total
+//     totalPrice = 0;
+//     for (var i = 0; i < kanapLength; ++i) {
+//         totalPrice += (kanapQuantity[i].valueAsNumber * Cart[i].pFetchContent.price);
 //     }
 // }
+// getTotals();
 
 
-// function getTotal() {
-//     let cart = getCart();
-//     let total = document.querySelector
-
-//     total = 0;
-//     for (let product of cart) {
-//         total += product.quantity * product.price;
-//     }
-//     return total;
-// }
-
-
-
-//                                          ----------------------Fin de la fonction de suppression----------------------
+//                                          ----------------------Fin de la fonction des totaux----------------------
 
 
 
@@ -176,110 +176,144 @@ function cartContainer(pCartContent, pFetchContent) {
 
 
 
-function testRegexFirstName(pElement) {
+// Controle de surface
+function getForm() {
+   
+    let form = document.querySelector(".cart__order__form");
 
-    let firstName = document.querySelector("#firstname");
-    let regexFirstName = new RegExp(/^[a-zA-Z-éèà]/);
-    let firstNameTest = regexFirstName.test(firstName.value);
-    firstNameErrorMsg
-    alert('veuillez utiliser un prénom valide');
-    return firstNameTest;
-    
-}
-// CREER ICI LES MESSAGES D'ERREUR
-// const firstNameErrorMsg = document.querySelector("#firstNameErrorMsg");
-// firstNameErrorMsg = 
+    //Création des expressions régulières
+    let emailRegExp = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$');
+    let generalRegExp = new RegExp("^[a-zA-Z -]");
+    let addressRegExp = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
 
-function testRegexLastName(pElement) {
+    // Ecoute de la modification du prénom
+    form.firstName.addEventListener('change', function() {
+        validFirstName(this);
+    });
 
-    let lastName = document.querySelector("#lastName");
-    let regexLastName = new RegExp(/^[a-zA-Z-éèà]/);
-    let regexLastNameTest = regexLastName.test(lastName.value);
-    lastNameErrorMsg
-    return regexLastNameTest;
-}
+    // Ecoute de la modification du nom
+    form.lastName.addEventListener('change', function() {
+        validLastName(this);
+    });
 
+    // Ecoute de la modification de l'adresse
+    form.address.addEventListener('change', function() {
+        validAddress(this);
+    });
 
-function testRegexAdress(pElement) {
+    // Ecoute de la modification de la ville
+    form.city.addEventListener('change', function() {
+        validCity(this);
+    });
 
-    let adress = document.querySelector("#adress");
-    let regexAdress = new RegExp(/^[0-9]+[a-zA-Z-éèà]/)
-    let regexAdressTest = regexAdress.test(adress.value);
-    let errorMsg = document.querySelector('#addressErrorMsg')
-    errorMsg.textContent = 'Veuillez utiliser une adresse valide';
-    adress.focus;
-    return false;
-    return regexAdressTest;
-}
+    // Ecoute de la modification de l'email
+    form.email.addEventListener('change', function() {
+        validEmail(this);
+    });
 
-function testRegexAdress(pElement) {
+    //validation du prénom
+    const validFirstName = function(inputFirstName) {
+        let firstNameErrorMsg = inputFirstName.nextElementSibling;
+        // nextElementSibling exécute l'action demandée après l'élément séléctionné
 
-    let city = document.querySelector("#city");
-    let regexCity = new RegExp(/^[a-zA-Z-éèà]/);
-    let regexCityTest = regexCity.test(city.value);
-    cityErrorMsg
-    return regexCityTest;
-}
+        if (generalRegExp.test(inputFirstName.value)) {
+            firstNameErrorMsg.innerText = '';
+        } else {
+            firstNameErrorMsg.innerText = 'Veuillez renseigner un prénom.';
+        }
+    };
 
-function testRegexEmail(pElement) {
+    //validation du nom
+    const validLastName = function(inputLastName) {
+        let lastNameErrorMsg = inputLastName.nextElementSibling;
 
-    let email = document.querySelector("#email");
-    let regexEmail = new RegExp(/^[a-zA-Z-éèà]/);
-    let regexEmailTest = regexEmail.test(email.value);
-    emailErrorMsg
-    return regexEmailTest;
-}
+        if (generalRegExp.test(inputLastName.value)) {
+            lastNameErrorMsg.innerText = '';
+        } else {
+            lastNameErrorMsg.innerText = 'Veuillez renseigner un nom.';
+        }
+    };
 
-// const orderBtn = document.querySelector('#order');
-// location.href = "confirmation.html";
+    //validation de l'adresse
+    const validAddress = function(inputAddress) {
+        let addressErrorMsg = inputAddress.nextElementSibling;
 
-//                                          ----------------------Fin de la fonction des Regex----------------------
+        if (addressRegExp.test(inputAddress.value)) {
+            addressErrorMsg.innerText = '';
+        } else {
+            addressErrorMsg.innerText = 'Veuillez renseigner une adresse valide.';
+        }
+    };
 
+    //validation de la ville
+    const validCity = function(inputCity) {
+        let cityErrorMsg = inputCity.nextElementSibling;
 
+        if (generalRegExp.test(inputCity.value)) {
+            cityErrorMsg.innerText = '';
+        } else {
+            cityErrorMsg.innerText = 'Veuillez renseigner une ville.';
+        }
+    };
 
+    //validation de l'email
+    const validEmail = function(inputEmail) {
+        let emailErrorMsg = inputEmail.nextElementSibling;
 
-// créer le bouton pour modifier la quantité
-// calcul des totaux
-// post
-
-
-
-
-
-//   fonction utilisant la methode "post" pour envoyer le formulaire vers le LS
-
-// function postForm() {
-
-    // constante pour selectionner mon bouton puis j'écoute au click et je récupère les données
-    // const orderBtn = document.querySelector("#order");
-    // orderBtn.addEventListener('click', (ev) => {
-
-    //     ev.preventDefault();
-
-    //     let firstNameFielfunction getTotal() {
-//     let cart = getCart();
-//     let total = document.querySelector
-
-//     total = 0;
-//     for (let product of cart) {
-//         total += product.quantity * product.price;
-//     }
-//     return total;
-// }d = document.querySelector("#firstname");
-    //     let lastNameField = document.querySelector("#lastName");
-    //     let adressField = document.querySelector("#adress");
-    //     let cityField = document.querySelector("#city");
-    //     let emailField = document.querySelector("#email");
-    // }
-    // )}
+        if (emailRegExp.test(inputEmail.value)) {
+            emailErrorMsg.innerText = '';
+        } else {
+            emailErrorMsg.innerText = 'Veuillez renseigner un mail valide. ex:(exemple@[domaine].fr,com, etc).';
+        }
+    };
+    }
+getForm();
 
 
-// function getTotalprice() {
-//   let cart = getCart();
-//   let total = 0;
-//   for (let product of cart) {
-//     total += product.quantity * product.price;
-//   }
-//   return total;
-// }
+            //                                          ----------------------Fin de la fonction des Regex----------------------
+
+
+            // post
+
+
+
+
+
+            //   fonction utilisant la methode "post" pour envoyer le formulaire vers le LS
+
+            // function postForm() {
+
+            // constante pour selectionner mon bouton puis j'écoute au click et je récupère les données
+            // const orderBtn = document.querySelector("#order");
+            // orderBtn.addEventListener('click', (ev) => {
+
+            //     ev.preventDefault();
+
+            //     let firstNameFielfunction getTotal() {
+            //     let cart = getCart();
+            //     let total = document.querySelector
+
+            //     total = 0;
+            //     for (let product of cart) {
+            //         total += product.quantity * product.price;
+            //     }
+            //     return total;
+            // }d = document.querySelector("#firstname");
+            //     let lastNameField = document.querySelector("#lastName");
+            //     let adressField = document.querySelector("#adress");
+            //     let cityField = document.querySelector("#city");
+            //     let emailField = document.querySelector("#email");
+            // }
+            // )}
+
+
+            function getTotalprice() {
+                let cart = getCart();
+                let total = 0;
+                for (let product of cart) {
+                    total += product.quantity * product.price;
+                }
+                return total;
+            }
+            getTotalprice();
 
