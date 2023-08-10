@@ -7,8 +7,11 @@ async function getCart() {
         console.log(content);
         let productByFetch = await getProductById(content.id);
         console.log(productByFetch);
-        cartContainer(content, productByFetch);
         // removeFromBasket(content);
+
+        productByFetch.quantity = content.quantity;
+
+        cartContainer(content, productByFetch);
     }
 }
 
@@ -28,6 +31,7 @@ async function getProductById(pId) {
 getCart();
 
 //fonction pour sauvegarder mon produit dans le localstorage. JSON.stringify pour transformer mes données en Json, parse pour les remettre en JS
+
 function saveCart(cart) {
     localStorage.setItem("cart", JSON.stringify(cart)); //stringify transforme la chaine de caracteres javascript en json
     //setitem du storage permet d'ajouter la clé et la valeur au local storage 
@@ -48,10 +52,10 @@ function cartContainer(pCartContent, pFetchContent) {
 
     let cartImage = document.createElement("div");
     cartImage.className = "cart__item__img";
-    let cartImg = document.createElement("img");
-    cartImg.src = pFetchContent.imageUrl;
-    cartImg.alt = pFetchContent.altTxt;
-    cartImg.appendChild(cartImage);
+    let cartPicture = document.createElement("img");
+    cartPicture.src = pFetchContent.imageUrl;
+    cartPicture.alt = pFetchContent.altTxt;
+    cartImage.appendChild(cartPicture);
     cartArticle.appendChild(cartImage);
 
 
@@ -76,7 +80,6 @@ function cartContainer(pCartContent, pFetchContent) {
     itemDescription.appendChild(itemPrice);
     cartItemContent.appendChild(itemDescription);
 
-
     let itemSettings = document.createElement("div");
     itemSettings.className = "cart__item__content__settings";
     cartItemContent.appendChild(itemSettings);
@@ -97,223 +100,30 @@ function cartContainer(pCartContent, pFetchContent) {
     itemSettingsQty.appendChild(changeQty);
     itemSettings.appendChild(itemSettingsQty);
 
-    changeQty.addEventListener('click', (ev) => { //n'empêche pas 'laffichage du produit ok.
-        ev.preventDefault(); //n'empêche pas 'laffichage du produit ok.
-        const article = ev.target.closest('article'); //n'empêche pas 'laffichage du produit ok.
-        let qty = ev.target.value; //n'empêche pas 'laffichage du produit ok.
-        alert(qty); //n'empêche pas 'laffichage du produit ok.
-        let articleId = article.getAttribute('data-id'); //n'empêche pas 'laffichage du produit ok.
-        alert(articleId); //n'empêche pas 'laffichage du produit ok.
-        let articleColor = article.getAttribute('data-color'); //n'empêche pas 'laffichage du produit ok.
-        alert(articleColor); //n'empêche pas 'laffichage du produit ok.
+    changeQty.addEventListener("change", function(event) {
+        const newQuantity = parseInt(event.target.value); // comme pour stringify/Json, parseInt permet de convertir la valeur en nombre entier. Sans parseInt, 10+5=105. Avec, 10+5=15.
+        pCartContent.quantity = newQuantity; // Mettre à jour la quantité dans pCartContent
+    
+        // Mettre à jour le Local Storage avec la nouvelle quantité
+        updateCartInLocalStorage();
+    
+        // Mettre à jour l'affichage pour renvoyer la nouvelle quantité
+        itemQuantity.textContent = newQuantity;
+    });    
 
-        //  let cart = JSON.parse(localStorage.getItem('cart')); //n'empêche pas 'laffichage du produit ok.
-        //  let foundCart = cart.findIndex(changeQty); //n'empêche pas 'laffichage du produit ok.
-        //  foundCart.quantity = qty; //n'empêche pas 'laffichage du produit ok.
-        //  cart.splice(article); //n'empêche pas 'laffichage du produit ok.
-        //  saveCart(foundCart);
-        // findindex et splice
-    })
-
-
-    let itemToDelete = document.createElement("div");
-    itemToDelete.className = "cart__item__content__settings__delete";
-    let deleteItem = document.createElement("p");
-    deleteItem.className = "deleteItem";
-    deleteItem.textContent = "Supprimer";
-    itemToDelete.appendChild(deleteItem);
-    itemSettings.appendChild(itemToDelete);
-
-    deleteItem.addEventListener('click', (ev) => {
-        ev.preventDefault();
-        const elementToDelete = deleteItem.closest('article');
-        let articleId = elementToDelete.getAttribute('data-id');
-        alert(articleId);
-        let articleColor = elementToDelete.getAttribute('data-color');
-        alert(articleColor);
-        elementToDelete.remove();
-
+    function updateCartInLocalStorage() {
         let cart = JSON.parse(localStorage.getItem('cart'));
-        let filteredCart = cart.filter(p => !(p.id == articleId && p.color == articleColor));
-        saveCart(filteredCart);
-    })
-}
-//                                             ---------------------- Fin de la fonction  ----------------------
-
-
-
-//                                  ----------------------Création de la fonction de calcul des totaux----------------------
-
-
-// function getTotals(){
-
-//     // Calcul de la quantité totale
-//     let kanapQuantity = document.getElementsByClassName('itemQuantity');
-//     let kanapLength = kanapQuantity.length,
-//     totalQuantity = 0;
-
-//     for (var i = 0; i < kanapLength; ++i) {
-//         totalQuantity += kanapQuantity[i].valueAsNumber;
-//     }
-
-//     let totalKanapQuantity = document.getElementById('totalQuantity');
-//     totalKanapQuantity.textContent = totalQuantity;
-
-//     // Calcul du prix total
-//     totalPrice = 0;
-//     for (var i = 0; i < kanapLength; ++i) {
-//         totalPrice += (kanapQuantity[i].valueAsNumber * Cart[i].pFetchContent.price);
-//     }
-// }
-// getTotals();
-
-
-//                                          ----------------------Fin de la fonction des totaux----------------------
-
-
-
-//                                           ----------------------Création de la fonction des Regex----------------------
-
-
-
-// Controle de surface
-function getForm() {
-   
-    let form = document.querySelector(".cart__order__form");
-
-    //Création des expressions régulières
-    let emailRegExp = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$');
-    let generalRegExp = new RegExp("^[a-zA-Z -]");
-    let addressRegExp = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
-
-    // Ecoute de la modification du prénom
-    form.firstName.addEventListener('change', function() {
-        validFirstName(this);
-    });
-
-    // Ecoute de la modification du nom
-    form.lastName.addEventListener('change', function() {
-        validLastName(this);
-    });
-
-    // Ecoute de la modification de l'adresse
-    form.address.addEventListener('change', function() {
-        validAddress(this);
-    });
-
-    // Ecoute de la modification de la ville
-    form.city.addEventListener('change', function() {
-        validCity(this);
-    });
-
-    // Ecoute de la modification de l'email
-    form.email.addEventListener('change', function() {
-        validEmail(this);
-    });
-
-    //validation du prénom
-    const validFirstName = function(inputFirstName) {
-        let firstNameErrorMsg = inputFirstName.nextElementSibling;
-        // nextElementSibling exécute l'action demandée après l'élément séléctionné
-
-        if (generalRegExp.test(inputFirstName.value)) {
-            firstNameErrorMsg.innerText = '';
-        } else {
-            firstNameErrorMsg.innerText = 'Veuillez renseigner un prénom.';
-        }
-    };
-
-    //validation du nom
-    const validLastName = function(inputLastName) {
-        let lastNameErrorMsg = inputLastName.nextElementSibling;
-
-        if (generalRegExp.test(inputLastName.value)) {
-            lastNameErrorMsg.innerText = '';
-        } else {
-            lastNameErrorMsg.innerText = 'Veuillez renseigner un nom.';
-        }
-    };
-
-    //validation de l'adresse
-    const validAddress = function(inputAddress) {
-        let addressErrorMsg = inputAddress.nextElementSibling;
-
-        if (addressRegExp.test(inputAddress.value)) {
-            addressErrorMsg.innerText = '';
-        } else {
-            addressErrorMsg.innerText = 'Veuillez renseigner une adresse valide.';
-        }
-    };
-
-    //validation de la ville
-    const validCity = function(inputCity) {
-        let cityErrorMsg = inputCity.nextElementSibling;
-
-        if (generalRegExp.test(inputCity.value)) {
-            cityErrorMsg.innerText = '';
-        } else {
-            cityErrorMsg.innerText = 'Veuillez renseigner une ville.';
-        }
-    };
-
-    //validation de l'email
-    const validEmail = function(inputEmail) {
-        let emailErrorMsg = inputEmail.nextElementSibling;
-
-        if (emailRegExp.test(inputEmail.value)) {
-            emailErrorMsg.innerText = '';
-        } else {
-            emailErrorMsg.innerText = 'Veuillez renseigner un mail valide. ex:(exemple@[domaine].fr,com, etc).';
-        }
-    };
-    }
-getForm();
-
-
-            //                                          ----------------------Fin de la fonction des Regex----------------------
-
-
-            // post
-
-
-
-
-
-            //   fonction utilisant la methode "post" pour envoyer le formulaire vers le LS
-
-            // function postForm() {
-
-            // constante pour selectionner mon bouton puis j'écoute au click et je récupère les données
-            // const orderBtn = document.querySelector("#order");
-            // orderBtn.addEventListener('click', (ev) => {
-
-            //     ev.preventDefault();
-
-            //     let firstNameFielfunction getTotal() {
-            //     let cart = getCart();
-            //     let total = document.querySelector
-
-            //     total = 0;
-            //     for (let product of cart) {
-            //         total += product.quantity * product.price;
-            //     }
-            //     return total;
-            // }d = document.querySelector("#firstname");
-            //     let lastNameField = document.querySelector("#lastName");
-            //     let adressField = document.querySelector("#adress");
-            //     let cityField = document.querySelector("#city");
-            //     let emailField = document.querySelector("#email");
-            // }
-            // )}
-
-
-            function getTotalprice() {
-                let cart = getCart();
-                let total = 0;
-                for (let product of cart) {
-                    total += product.quantity * product.price;
-                }
-                return total;
+    
+        // Parcourir le panier et mettre à jour la quantité du produit modifié
+        for (let i = 0; i < cart.length; i++) { // "i" variable qui suit l'indice de la boucle.
+            if (cart[i].id === pCartContent.id && cart[i].color === pCartContent.color) { // À chaque itération de la boucle, vérifie si ID et couleur de l'élément du panier (cart[i]) correspondent à ID et couleur de pCartContent.
+                cart[i].quantity = pCartContent.quantity; // mettre à jour le paramètre "quantity" dans pCartContent
             }
-            getTotalprice();
+        }
+    
+        // Mettre à jour le Local Storage avec le panier modifié
+        saveCart(cart);
+    }
+}
+
 
