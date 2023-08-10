@@ -7,8 +7,11 @@ async function getCart() {
         console.log(content);
         let productByFetch = await getProductById(content.id);
         console.log(productByFetch);
-        cartContainer(content, productByFetch);
         // removeFromBasket(content);
+
+        productByFetch.quantity = content.quantity;
+
+        cartContainer(content, productByFetch);
     }
 }
 
@@ -77,6 +80,11 @@ function cartContainer(pCartContent, pFetchContent) {
     itemDescription.appendChild(itemPrice);
     cartItemContent.appendChild(itemDescription);
 
+    let itemQuantity = document.createElement("p");
+    itemQuantity.textContent = pFetchContent.quantity;
+    itemDescription.appendChild(itemQuantity);
+    
+
 
     let itemSettings = document.createElement("div");
     itemSettings.className = "cart__item__content__settings";
@@ -98,46 +106,48 @@ function cartContainer(pCartContent, pFetchContent) {
     itemSettingsQty.appendChild(changeQty);
     itemSettings.appendChild(itemSettingsQty);
 
-    changeQty.addEventListener('click', (ev) => { //n'empêche pas 'laffichage du produit ok.
-        ev.preventDefault(); //n'empêche pas 'laffichage du produit ok.
-        const article = ev.target.closest('article'); //n'empêche pas 'laffichage du produit ok.
-        let qty = ev.target.value; //n'empêche pas 'laffichage du produit ok.
-        alert(qty); //n'empêche pas 'laffichage du produit ok.
-        let articleId = article.getAttribute('data-id'); //n'empêche pas 'laffichage du produit ok.
-        alert(articleId); //n'empêche pas 'laffichage du produit ok.
-        let articleColor = article.getAttribute('data-color'); //n'empêche pas 'laffichage du produit ok.
-        alert(articleColor); //n'empêche pas 'laffichage du produit ok.
+    changeQty.addEventListener('click', (ev) => { 
+        ev.preventDefault();
+        let qty = ev.target.value;
+        alert(qty);
 
-        //  let cart = JSON.parse(localStorage.getItem('cart')); //n'empêche pas 'laffichage du produit ok.
-        //  let foundCart = cart.findIndex(changeQty); //n'empêche pas 'laffichage du produit ok.
-        //  foundCart.quantity = qty; //n'empêche pas 'laffichage du produit ok.
-        //  cart.splice(article); //n'empêche pas 'laffichage du produit ok.
-        //  saveCart(foundCart);
+        const article = ev.target.closest('article');
+        let articleId = article.getAttribute('data-id');
+        alert(articleId);
+        let articleColor = article.getAttribute('data-color');
+        alert(articleColor);
+
+         let cart = JSON.parse(localStorage.getItem('cart')); //n'empêche pas 'laffichage du produit ok.
+         let foundCart = cart.findIndex(changeQty); //n'empêche pas 'laffichage du produit ok.
+         foundCart.quantity = qty; //n'empêche pas 'laffichage du produit ok.
+         cart.splice(article); //n'empêche pas 'laffichage du produit ok.
+         saveCart(foundCart);
         // findindex et splice
     })
 
 
-    let itemToDelete = document.createElement("div");
-    itemToDelete.className = "cart__item__content__settings__delete";
-    let deleteItem = document.createElement("p");
-    deleteItem.className = "deleteItem";
-    deleteItem.textContent = "Supprimer";
-    itemToDelete.appendChild(deleteItem);
-    itemSettings.appendChild(itemToDelete);
+//     let itemToDelete = document.createElement("div");
+//     itemToDelete.className = "cart__item__content__settings__delete";
+//     let deleteItem = document.createElement("p");
+//     deleteItem.className = "deleteItem";
+//     deleteItem.textContent = "Supprimer";
+//     itemToDelete.appendChild(deleteItem);
+//     itemSettings.appendChild(itemToDelete);
 
-    deleteItem.addEventListener('click', (ev) => {
-        ev.preventDefault();
-        const elementToDelete = deleteItem.closest('article');
-        let articleId = elementToDelete.getAttribute('data-id');
-        alert(articleId);
-        let articleColor = elementToDelete.getAttribute('data-color');
-        alert(articleColor);
-        elementToDelete.remove();
+//     deleteItem.addEventListener('click', (ev) => {
+//         ev.preventDefault();
+//         const elementToDelete = deleteItem.closest('article');
+//         let articleId = elementToDelete.getAttribute('data-id');
+//         alert(articleId);
+//         let articleColor = elementToDelete.getAttribute('data-color');
+//         alert(articleColor);
+//         elementToDelete.remove();
 
-        let cart = JSON.parse(localStorage.getItem('cart'));
-        let filteredCart = cart.filter(p => !(p.id == articleId && p.color == articleColor));
-        saveCart(filteredCart);
-    })
+//         let cart = JSON.parse(localStorage.getItem('cart'));
+//         let filteredCart = cart.filter(p => !(p.id == articleId && p.color == articleColor));
+//         saveCart(filteredCart);
+//     })
+// // 
 // }
 //                                             ---------------------- Fin de la fonction  ----------------------
 
