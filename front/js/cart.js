@@ -126,13 +126,13 @@ function cartContainer(pCartContent, pFetchContent) {
     })
 
 
-//     let itemToDelete = document.createElement("div");
-//     itemToDelete.className = "cart__item__content__settings__delete";
-//     let deleteItem = document.createElement("p");
-//     deleteItem.className = "deleteItem";
-//     deleteItem.textContent = "Supprimer";
-//     itemToDelete.appendChild(deleteItem);
-//     itemSettings.appendChild(itemToDelete);
+    let itemToDelete = document.createElement("div");
+    itemToDelete.className = "cart__item__content__settings__delete";
+    let deleteItem = document.createElement("p");
+    deleteItem.className = "deleteItem";
+    deleteItem.textContent = "Supprimer";
+    itemToDelete.appendChild(deleteItem);
+    itemSettings.appendChild(itemToDelete);
 
 //     deleteItem.addEventListener('click', (ev) => {
 //         ev.preventDefault();
