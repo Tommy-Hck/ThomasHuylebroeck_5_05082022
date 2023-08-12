@@ -128,7 +128,7 @@ function cartContainer(pCartContent, pFetchContent) {
     let settingsDelete = document.createElement("div");
     settingsDelete.className = "cart__item__content__settings__delete";
     itemSettings.appendChild(settingsDelete);
-    let deleteButton = document.createElement("button");
+    let deleteButton = document.createElement("p");
     deleteButton.className = "deleteItem";
     deleteButton.textContent = "Supprimer";
     settingsDelete.appendChild(deleteButton);
@@ -147,7 +147,7 @@ function cartContainer(pCartContent, pFetchContent) {
     // Trouver l'indice de l'élément à supprimer dans le panier
     const index = cart.findIndex(item => item.id === itemToRemove.id && item.color === itemToRemove.color);
 
-    if (index !== -1) {
+    if (index !== -1) { // vérifie si findIndex à bien trouvé un élément à supprimer. si -1, pas d'élément donc pas de suppression
         cart.splice(index, 1); // Supprimer l'élément du panier
         saveCart(cart); // Mettre à jour le Local Storage avec le panier modifié
     }
@@ -155,5 +155,7 @@ function cartContainer(pCartContent, pFetchContent) {
 
 
 }
+
+
 
 
