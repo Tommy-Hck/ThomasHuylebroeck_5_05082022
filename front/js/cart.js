@@ -124,6 +124,36 @@ function cartContainer(pCartContent, pFetchContent) {
         // Mettre à jour le Local Storage avec le panier modifié
         saveCart(cart);
     }
+
+    let settingsDelete = document.createElement("div");
+    settingsDelete.className = "cart__item__content__settings__delete";
+    itemSettings.appendChild(settingsDelete);
+    let deleteButton = document.createElement("button");
+    deleteButton.className = "deleteItem";
+    deleteButton.textContent = "Supprimer";
+    settingsDelete.appendChild(deleteButton);
+    // Ecouter l'event pour gérer le clic sur le bouton Supprimer
+    deleteButton.addEventListener("click", function() {
+    // Appeler une fonction pour supprimer l'élément du panier
+    removeFromCart(pCartContent);
+    // Supprimer l'élément du panier de l'interface utilisateur
+    cartArticle.remove();
+});
+
+
+    function removeFromCart(itemToRemove) {
+    let cart = JSON.parse(localStorage.getItem('cart'));
+
+    // Trouver l'indice de l'élément à supprimer dans le panier
+    const index = cart.findIndex(item => item.id === itemToRemove.id && item.color === itemToRemove.color);
+
+    if (index !== -1) {
+        cart.splice(index, 1); // Supprimer l'élément du panier
+        saveCart(cart); // Mettre à jour le Local Storage avec le panier modifié
+    }
+}
+
+
 }
 
 
