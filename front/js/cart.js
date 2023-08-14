@@ -3,16 +3,23 @@
 async function getCart() {
     let cart = JSON.parse(localStorage.getItem('cart'));
     console.log(cart);
+    
+    let totalPrice = 0; // Initialisation du total des prix
+    
     for (let content of cart) {
         console.log(content);
         let productByFetch = await getProductById(content.id);
         console.log(productByFetch);
-        // removeFromBasket(content);
 
         productByFetch.quantity = content.quantity;
-
         cartContainer(content, productByFetch);
+
+        // Ajouter le prix du produit multiplié par la quantité au total
+        totalPrice += productByFetch.price * content.quantity;
+
     }
+
+    console.log("Total Price:", totalPrice);
 }
 
 async function getProductById(pId) {
@@ -22,6 +29,28 @@ async function getProductById(pId) {
         .then((data) => { return data });
 }
 
+// async function getTotalPrice() {  //fonction asynchrone, récupération de la quantité du LS puis récupération du prix avec getProductById
+//     let cart = JSON.parse(localStorage.getItem('cart'));
+//     console.log(cart);
+    
+//     let totalPrice = 0; // Initialisation du total des prix
+    
+//     for (let content of cart) {
+//         console.log(content);
+//         let productByFetch = await getProductById(content.id);
+//         console.log(productByFetch);
+
+//         productByFetch.quantity = content.quantity;
+//         cartContainer(content, productByFetch);
+
+//         // Ajouter le prix du produit multiplié par la quantité au total
+//         totalPrice += productByFetch.price * content.quantity;
+//     }
+
+//     console.log("Total Price:", totalPrice);
+// }
+
+
 //                                                   ---------------------- FIN DES FONCTIONS FETCH ----------------------
 
 
@@ -29,6 +58,9 @@ async function getProductById(pId) {
 //                                                      ----------------------APPEL DES FONCTIONS ----------------------
 
 getCart();
+
+
+
 
 //fonction pour sauvegarder mon produit dans le localstorage. JSON.stringify pour transformer mes données en Json, parse pour les remettre en JS
 
@@ -120,10 +152,11 @@ function cartContainer(pCartContent, pFetchContent) {
                 cart[i].quantity = pCartContent.quantity; // mettre à jour le paramètre "quantity" dans pCartContent
             }
         }
-    
+        getCart();
         // Mettre à jour le Local Storage avec le panier modifié
         saveCart(cart);
     }
+    
 
     let settingsDelete = document.createElement("div");
     settingsDelete.className = "cart__item__content__settings__delete";
@@ -149,12 +182,19 @@ function cartContainer(pCartContent, pFetchContent) {
 
     if (index !== -1) { // vérifie si findIndex à bien trouvé un élément à supprimer. si -1, pas d'élément donc pas de suppression
         cart.splice(index, 1); // Supprimer l'élément du panier
+        getCart();
         saveCart(cart); // Mettre à jour le Local Storage avec le panier modifié
     }
 }
-
-
+    // Afficher le prix total dans l'élément du DOM"
+    const totalPriceElement = document.querySelector("#totalPrice");
+    totalPriceElement.textContent = totalPrice;
 }
+
+
+
+
+
 
 
 
