@@ -3,38 +3,58 @@ async function getCart() {
     let cart = JSON.parse(localStorage.getItem('cart'));
     console.log(cart);
 
+    let totalPrice = 0; //init du total des prix
+    let totalQuantity = 0; //init du total des quantités
+
     for (let content of cart) {
         console.log(content);
         let productByFetch = await getProductById(content.id);
         console.log(productByFetch);
-        // removeFromBasket(content);
 
-        productByFetch.quantity = content.quantity;
-
-        
         // Ajouter le prix du produit multiplié par la quantité au total
         totalPrice += productByFetch.price * content.quantity;
-        cartContainer(content, productByFetch, totalPrice, totalQuantity);
+        totalQuantity = content.quantity +  totalQuantity;
+
+        cartContainer(content, productByFetch);
     }
+
+    // Afficher le prix total dans l'élément du DOM"
+    const totalPriceElement = document.querySelector("#totalPrice");
+    totalPriceElement.textContent = totalPrice;
+
+    const totalQuantityElement = document.querySelector("#totalQuantity");
+    totalQuantityElement.textContent = totalQuantity;
+
+    console.log("total Price:", totalPrice);
+    console.log("Qté:", totalQuantity);
 }
 
-    function getTotal(cart) {
-        let total = {
-            totalPrice: 0,
-            totalQuantity: 0
-    };
+async function totalCart() {
+    let cart = JSON.parse(localStorage.getItem('cart'));
+    console.log(cart);
+
+    let totalPrice = 0; //init du total des prix
+    let totalQuantity = 0; //init du total des quantités
 
     for (let content of cart) {
-        total.totalQuantity += content.quantity;
-        
-        // getProductById permet d'obtenir les informations sur le produit
-        getProductById(content.id)
-            .then(productByFetch => {
-                total.totalPrice += productByFetch.price * content.quantity;
-            });
+        console.log(content);
+        let productByFetch = await getProductById(content.id);
+        console.log(productByFetch);
+
+        // Ajouter le prix du produit multiplié par la quantité au total
+        totalPrice += productByFetch.price * content.quantity;
+        totalQuantity += content.quantity;
     }
 
-    return total;
+    // Afficher le prix total dans l'élément du DOM"
+    const totalPriceElement = document.querySelector("#totalPrice");
+    totalPriceElement.textContent = totalPrice;
+
+    const totalQuantityElement = document.querySelector("#totalQuantity");
+    totalQuantityElement.textContent = totalQuantity;
+
+    console.log("total Price:", totalPrice);
+    console.log("Qté:", totalQuantity);
 }
 
 
@@ -44,6 +64,30 @@ async function getProductById(pId) {
         .then((response) => response.json())
         .then((data) => { return data });
 }
+
+// async function getTotalPrice() {  //fonction asynchrone, récupération de la quantité du LS puis récupération du prix avec getProductById
+//     let cart = JSON.parse(localStorage.getItem('cart'));
+//     console.log(cart);
+
+//     let totalPrice = 0; // Initialisation du total des prix
+
+//     for (let content of cart) {
+//         console.log(content);
+//         let productByFetch = await getProductById(content.id);
+
+//         console.log(productByFetch);
+
+//         productByFetch.quantity = content.quantity;
+//         cartContainer(content, productByFetch);
+
+//         // Ajouter le prix du produit multiplié par la quantité au total
+//         totalPrice += productByFetch.price * content.quantity;
+//     }
+
+//     console.log("Total Price:", totalPrice);
+// }
+
+
 //                                                   ---------------------- FIN DES FONCTIONS FETCH ----------------------
 
 
@@ -58,6 +102,7 @@ getCart();
 
 function saveCart(cart) {
     localStorage.setItem("cart", JSON.stringify(cart)); //stringify transforme la chaine de caracteres javascript en json
+    cart[i].quantity = pCartContent.quantity; // mettre à jour le paramètre "quantity" dans pCartContent
     //setitem du storage permet d'ajouter la clé et la valeur au local storage 
 }
 
@@ -65,7 +110,7 @@ function saveCart(cart) {
 // ---------------------- création de la fonction pour implémenter mon html avec les éléments du LS (pCartContent) et du LH (pFetchContent) ----------------------
 
 
-function cartContainer(pCartContent, pFetchContent, totalPrice, totalQuantity) {
+function cartContainer(pCartContent, pFetchContent) {
 
     let cartArticle = document.createElement("article");
     cartArticle.className = "cart__item";
@@ -124,21 +169,21 @@ function cartContainer(pCartContent, pFetchContent, totalPrice, totalQuantity) {
     itemSettingsQty.appendChild(changeQty);
     itemSettings.appendChild(itemSettingsQty);
 
-    changeQty.addEventListener("change", function(event) {
+    changeQty.addEventListener("change", function (event) {
         const newQuantity = parseInt(event.target.value); // comme pour stringify/Json, parseInt permet de convertir la valeur en nombre entier. Sans parseInt, 10+5=105. Avec, 10+5=15.
         pCartContent.quantity = newQuantity; // Mettre à jour la quantité dans pCartContent
-    
+
         // Mettre à jour le Local Storage avec la nouvelle quantité
         updateCartInLocalStorage();
-    
+
         // Mettre à jour l'affichage pour renvoyer la nouvelle quantité
         itemQuantity.textContent = newQuantity;
     });
-        
+
 
     function updateCartInLocalStorage() {
         let cart = JSON.parse(localStorage.getItem('cart'));
-    
+
         // Parcourir le panier et mettre à jour la quantité du produit modifié
         for (let i = 0; i < cart.length; i++) { // "i" variable qui suit l'indice de la boucle.
             if (cart[i].id === pCartContent.id && cart[i].color === pCartContent.color) { // À chaque itération de la boucle, vérifie si ID et couleur de l'élément du panier (cart[i]) correspondent à ID et couleur de pCartContent.
@@ -148,7 +193,7 @@ function cartContainer(pCartContent, pFetchContent, totalPrice, totalQuantity) {
         // Mettre à jour le Local Storage avec le panier modifié
         saveCart(cart);
     }
-    
+
 
     let settingsDelete = document.createElement("div");
     settingsDelete.className = "cart__item__content__settings__delete";
@@ -158,37 +203,29 @@ function cartContainer(pCartContent, pFetchContent, totalPrice, totalQuantity) {
     deleteButton.textContent = "Supprimer";
     settingsDelete.appendChild(deleteButton);
     // Ecouter l'event pour gérer le clic sur le bouton Supprimer
-    deleteButton.addEventListener("click", function() {
-    // Appeler une fonction pour supprimer l'élément du panier
-    removeFromCart(pCartContent);
-    // Supprimer l'élément du panier de l'interface utilisateur
-    cartArticle.remove();
-
-     // Afficher le prix total dans l'élément du DOM"
-   const totalPriceElement = document.querySelector("#totalPrice");
-   totalPriceElement.textContent = totalPrice;
-
-   const totalQuantityElement = document.querySelector("#totalQuantity");
-   totalQuantityElement.textContent = totalQuantity;
-});
+    deleteButton.addEventListener("click", function () {
+        // Appeler une fonction pour supprimer l'élément du panier
+        removeFromCart(pCartContent);
+        // Supprimer l'élément du panier de l'interface utilisateur
+        cartArticle.remove();
+    });
 
 
     function removeFromCart(itemToRemove) {
-    let cart = JSON.parse(localStorage.getItem('cart'));
+        let cart = JSON.parse(localStorage.getItem('cart'));
 
-    // Trouver l'indice de l'élément à supprimer dans le panier
-    const index = cart.findIndex(item => item.id === itemToRemove.id && item.color === itemToRemove.color);
+        // Trouver l'indice de l'élément à supprimer dans le panier
+        const index = cart.findIndex(item => item.id === itemToRemove.id && item.color === itemToRemove.color);
 
-    if (index !== -1) { // vérifie si findIndex à bien trouvé un élément à supprimer. si -1, pas d'élément donc pas de suppression
-        cart.splice(index, 1); // Supprimer l'élément du panier
-        getTotal();
-        saveCart(cart); // Mettre à jour le Local Storage avec le panier modifié
+        if (index !== -1) { // vérifie si findIndex à bien trouvé un élément à supprimer. si -1, pas d'élément donc pas de suppression
+            cart.splice(index, 1); // Supprimer l'élément du panier
+            updateCartInLocalStorage(cart); // Mettre à jour le Local Storage avec le panier modifié
+            totalCart();
+        }
     }
 }
-}
 
 
 
 
-
-
+;

@@ -102,7 +102,7 @@ function addToBasket(idProduct, pColor, pQuantity) { //creation d'une fonction p
     let product = {
       id: idProduct,
       color: pColor,
-      quantity: pQuantity,
+      quantity: parseInt(pQuantity),
     }
     cart.push(product); //ensuite on push pour le panier avec le produit au localstorage
   }
