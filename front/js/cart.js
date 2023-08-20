@@ -102,7 +102,7 @@ getCart();
 
 function saveCart(cart) {
     localStorage.setItem("cart", JSON.stringify(cart)); //stringify transforme la chaine de caracteres javascript en json
-    cart[i].quantity = pCartContent.quantity; // mettre à jour le paramètre "quantity" dans pCartContent
+    newQuantity = cart.quantity; // mettre à jour le paramètre "quantity" dans cart
     //setitem du storage permet d'ajouter la clé et la valeur au local storage 
 }
 
@@ -192,6 +192,7 @@ function cartContainer(pCartContent, pFetchContent) {
         }
         // Mettre à jour le Local Storage avec le panier modifié
         saveCart(cart);
+        totalCart();
     }
 
 
