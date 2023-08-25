@@ -86,6 +86,7 @@ function saveCart(cart) {
 
 function getCart() {
   let cart = localStorage.getItem("cart");
+  console.log(cart);
   if (cart == null) {
     return []; //retourne un tableau vide puisque le panier est vide
   } else {

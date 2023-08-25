@@ -1,5 +1,7 @@
 //  ----------------------Création de fonctions asynchrones pour récupérer les éléments du panier pour la première et du LocalHost pour la deuxème ----------------------
+//  ----------------------Création de fonctions asynchrones pour récupérer les éléments du panier pour la première et du LocalHost pour la deuxème ----------------------
 async function getCart() {
+
     let cart = JSON.parse(localStorage.getItem('cart'));
     console.log(cart);
 
@@ -13,7 +15,7 @@ async function getCart() {
 
         // Ajouter le prix du produit multiplié par la quantité au total
         totalPrice += productByFetch.price * content.quantity;
-        totalQuantity = content.quantity +  totalQuantity;
+        totalQuantity = content.quantity + totalQuantity;
 
         cartContainer(content, productByFetch);
     }
@@ -65,29 +67,6 @@ async function getProductById(pId) {
         .then((data) => { return data });
 }
 
-// async function getTotalPrice() {  //fonction asynchrone, récupération de la quantité du LS puis récupération du prix avec getProductById
-//     let cart = JSON.parse(localStorage.getItem('cart'));
-//     console.log(cart);
-
-//     let totalPrice = 0; // Initialisation du total des prix
-
-//     for (let content of cart) {
-//         console.log(content);
-//         let productByFetch = await getProductById(content.id);
-
-//         console.log(productByFetch);
-
-//         productByFetch.quantity = content.quantity;
-//         cartContainer(content, productByFetch);
-
-//         // Ajouter le prix du produit multiplié par la quantité au total
-//         totalPrice += productByFetch.price * content.quantity;
-//     }
-
-//     console.log("Total Price:", totalPrice);
-// }
-
-
 //                                                   ---------------------- FIN DES FONCTIONS FETCH ----------------------
 
 
@@ -102,7 +81,7 @@ getCart();
 
 function saveCart(cart) {
     localStorage.setItem("cart", JSON.stringify(cart)); //stringify transforme la chaine de caracteres javascript en json
-    newQuantity = cart.quantity; // mettre à jour le paramètre "quantity" dans cart
+    // newQuantity = cart.quantity; // mettre à jour le paramètre "quantity" dans cart
     //setitem du storage permet d'ajouter la clé et la valeur au local storage 
 }
 
@@ -169,18 +148,6 @@ function cartContainer(pCartContent, pFetchContent) {
     itemSettingsQty.appendChild(changeQty);
     itemSettings.appendChild(itemSettingsQty);
 
-    changeQty.addEventListener("change", function (event) {
-        const newQuantity = parseInt(event.target.value); // comme pour stringify/Json, parseInt permet de convertir la valeur en nombre entier. Sans parseInt, 10+5=105. Avec, 10+5=15.
-        pCartContent.quantity = newQuantity; // Mettre à jour la quantité dans pCartContent
-
-        // Mettre à jour le Local Storage avec la nouvelle quantité
-        updateCartInLocalStorage();
-
-        // Mettre à jour l'affichage pour renvoyer la nouvelle quantité
-        itemQuantity.textContent = newQuantity;
-    });
-
-
     function updateCartInLocalStorage() {
         let cart = JSON.parse(localStorage.getItem('cart'));
 
@@ -195,6 +162,31 @@ function cartContainer(pCartContent, pFetchContent) {
         totalCart();
     }
 
+    changeQty.addEventListener("change", function (event) {
+        const newQuantity = parseInt(event.target.value); // comme pour stringify/Json, parseInt permet de convertir la valeur en nombre entier. Sans parseInt, 10+5=105. Avec, 10+5=15.
+        pCartContent.quantity = newQuantity; // Mettre à jour la quantité dans pCartContent
+
+        // Mettre à jour le Local Storage avec la nouvelle quantité
+        updateCartInLocalStorage();
+
+        // Mettre à jour l'affichage pour renvoyer la nouvelle quantité
+        let itemQuantity = document.querySelector("#")
+        itemQuantity.textContent = newQuantity;
+    });
+
+
+    function removeFromCart(itemToRemove) {
+        let cart = JSON.parse(localStorage.getItem('cart'));
+
+        // Trouver l'indice de l'élément à supprimer dans le panier
+        const index = cart.findIndex(item => item.id === itemToRemove.id && item.color === itemToRemove.color);
+
+        if (index !== -1) { // vérifie si findIndex à bien trouvé un élément à supprimer. si -1, pas d'élément donc pas de suppression
+            cart.splice(index, 1); // Supprimer l'élément du panier
+            saveCart();
+            totalCart();
+        }
+    }
 
     let settingsDelete = document.createElement("div");
     settingsDelete.className = "cart__item__content__settings__delete";
@@ -210,23 +202,4 @@ function cartContainer(pCartContent, pFetchContent) {
         // Supprimer l'élément du panier de l'interface utilisateur
         cartArticle.remove();
     });
-
-
-    function removeFromCart(itemToRemove) {
-        let cart = JSON.parse(localStorage.getItem('cart'));
-
-        // Trouver l'indice de l'élément à supprimer dans le panier
-        const index = cart.findIndex(item => item.id === itemToRemove.id && item.color === itemToRemove.color);
-
-        if (index !== -1) { // vérifie si findIndex à bien trouvé un élément à supprimer. si -1, pas d'élément donc pas de suppression
-            cart.splice(index, 1); // Supprimer l'élément du panier
-            updateCartInLocalStorage(cart); // Mettre à jour le Local Storage avec le panier modifié
-            totalCart();
-        }
-    }
-}
-
-
-
-
-;
+};
