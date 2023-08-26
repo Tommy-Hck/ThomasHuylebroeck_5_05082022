@@ -1,6 +1,6 @@
 //  ----------------------Création de fonctions asynchrones pour récupérer les éléments du panier pour la première et du LocalHost pour la deuxème ----------------------
 
-async function getCart() {
+async function getCart(fetchDom) {
 
     let cart = JSON.parse(localStorage.getItem('cart'));
     console.log(cart);
@@ -8,16 +8,25 @@ async function getCart() {
     let totalPrice = 0; //init du total des prix
     let totalQuantity = 0; //init du total des quantités
 
-    for (let content of cart) {
-        console.log(content);
-        let productByFetch = await getProductById(content.id);
-        console.log(productByFetch);
+    //#SL attention, si le localstorage est vide, ça plante
+    // car on essaie d'itérer cart, qui est vide
+    // donc :
+    if (cart !== null) {
+        for (let content of cart) {
+            console.log(content);
+            let productByFetch = await getProductById(content.id);
+            console.log(productByFetch);
 
-        // Ajouter le prix du produit multiplié par la quantité au total
-        totalPrice += productByFetch.price * content.quantity;
-        totalQuantity = content.quantity + totalQuantity;
+            // Ajouter le prix du produit multiplié par la quantité au total
+            totalPrice += productByFetch.price * content.quantity;
+            totalQuantity = content.quantity + totalQuantity;
 
-        cartContainer(content, productByFetch);
+            // #SL : ici, on conditionne le rendu des éléments html avec ce paramètre
+            // s'il est true alors on fait le rendu des éléments
+            if (fetchDom) {
+                cartContainer(content, productByFetch);
+            }
+        }
     }
 
     // Afficher le prix total dans l'élément du DOM"
@@ -30,35 +39,6 @@ async function getCart() {
     console.log("total Price:", totalPrice);
     console.log("Qté:", totalQuantity);
 }
-
-async function totalCart() {
-    let cart = JSON.parse(localStorage.getItem('cart'));
-    console.log(cart);
-
-    let totalPrice = 0; //init du total des prix
-    let totalQuantity = 0; //init du total des quantités
-
-    for (let content of cart) {
-        console.log(content);
-        let productByFetch = await getProductById(content.id);
-        console.log(productByFetch);
-
-        // Ajouter le prix du produit multiplié par la quantité au total
-        totalPrice += productByFetch.price * content.quantity;
-        totalQuantity += content.quantity;
-    }
-
-    // Afficher le prix total dans l'élément du DOM"
-    const totalPriceElement = document.querySelector("#totalPrice");
-    totalPriceElement.textContent = totalPrice;
-
-    const totalQuantityElement = document.querySelector("#totalQuantity");
-    totalQuantityElement.textContent = totalQuantity;
-
-    console.log("total Price:", totalPrice);
-    console.log("Qté:", totalQuantity);
-}
-
 
 async function getProductById(pId) {
     // pId parce qu'on récupère les paramètres de l'Id.
@@ -73,7 +53,7 @@ async function getProductById(pId) {
 
 //                                                      ----------------------APPEL DES FONCTIONS ----------------------
 
-getCart();
+getCart(true);
 
 
 
@@ -159,7 +139,6 @@ function cartContainer(pCartContent, pFetchContent) {
         }
         // Mettre à jour le Local Storage avec le panier modifié
         saveCart(cart);
-        totalCart();
     }
 
     changeQty.addEventListener("change", function (event) {
@@ -184,7 +163,6 @@ function cartContainer(pCartContent, pFetchContent) {
         if (index !== -1) { // vérifie si findIndex à bien trouvé un élément à supprimer. si -1, pas d'élément donc pas de suppression
             cart.splice(index, 1); // Supprimer l'élément du panier
             saveCart(cart);
-            totalCart();
         }
     }
 
