@@ -108,8 +108,8 @@ function addToBasket(idProduct, pColor, pQuantity) { //creation d'une fonction p
     cart.push(product); //ensuite on push pour le panier avec le produit au localstorage
   }
 
-  location.href = "cart.html";
   saveCart(cart); //saveCart pour enregistrer
+  location.href = "cart.html";
 }
 
 

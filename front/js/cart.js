@@ -1,5 +1,5 @@
 //  ----------------------Création de fonctions asynchrones pour récupérer les éléments du panier pour la première et du LocalHost pour la deuxème ----------------------
-//  ----------------------Création de fonctions asynchrones pour récupérer les éléments du panier pour la première et du LocalHost pour la deuxème ----------------------
+
 async function getCart() {
 
     let cart = JSON.parse(localStorage.getItem('cart'));
@@ -183,7 +183,7 @@ function cartContainer(pCartContent, pFetchContent) {
 
         if (index !== -1) { // vérifie si findIndex à bien trouvé un élément à supprimer. si -1, pas d'élément donc pas de suppression
             cart.splice(index, 1); // Supprimer l'élément du panier
-            saveCart();
+            saveCart(cart);
             totalCart();
         }
     }
