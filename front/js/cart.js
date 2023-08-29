@@ -149,7 +149,7 @@ function cartContainer(pCartContent, pFetchContent) {
         updateCartInLocalStorage();
 
         // Mettre à jour l'affichage pour renvoyer la nouvelle quantité
-        let itemQuantity = document.querySelector("#")
+        let itemQuantity = document.querySelector("#itemQuantity");
         itemQuantity.textContent = newQuantity;
     });
 
@@ -181,3 +181,142 @@ function cartContainer(pCartContent, pFetchContent) {
         cartArticle.remove();
     });
 };
+
+
+//                                                                    ---------CONTROLES DE SURFACE--------
+
+
+const firstNameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/; // const nameCity?
+const lastNameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/;
+const addressRegex = /^[A-Za-z0-9\s-#,]+$/;
+const cityRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/;
+const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+.[a-zA-Z]{2,4}$/;
+
+// zoneRegex
+// qsZone = '#lastname'
+// qsAlert = '#lastNameErrorMsg'
+// zoneName 
+
+
+function genericValidation(zoneRegex, qsZone, qsAlert, zoneName, wanted) {
+
+    // Validation de la zone
+    const zone = document.querySelector(qsZone);
+    const zoneValue = zone.value;
+
+    const alert = document.querySelector(qsAlert);
+
+    // #todo tester la longueur avec le regex
+
+    if (zoneValue.trim() == '') {
+        alert.textContent = `Veuillez rentrer une valeur dans le champ ${zoneName}`;
+        return false;
+    }
+
+
+    if (zoneRegex.test(zoneValue)) {
+        alert.textContent = "";
+        return true;
+        // La zone est valide
+    } else {
+        alert.textContent = `Veuillez rentrer un champ ${zoneName} valide (${wanted})`;
+
+        return false;
+    }
+}
+
+
+
+
+
+// const addressRegex = /^[A-Za-z0-9\s-#]+$/;
+// const cityRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/;
+// const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+.[a-zA-Z]{2,4}$/;
+
+function btnOrder() {
+    // récuperer le bouton de commande
+    let orderButtonEl = document.querySelector("#order");
+    // evenement bouton
+
+    orderButtonEl.addEventListener("click", function (ev) {
+        // au click
+        ev.preventDefault();
+        if (formValidation.firstName && formValidation.lastName && formValidation.address && formValidation.city && formValidation.email) {
+            alert("Formulaire ok : maintenant poster le panier au backend");            
+            
+        }
+        else {
+            alert("LE FORMULAIRE n'est pas ok");
+        }
+       
+
+
+    });
+}
+
+// fonction de mise en place des contrôles de surface
+function fieldValidation() {
+
+    const firstName = document.querySelector('#firstName');
+    firstName.addEventListener("input", function (event) {
+        formValidation.firstName = genericValidation(firstNameRegex, '#firstName', '#firstNameErrorMsg', 'prénom', 'lettres uniquement');
+        console.log(`formValidation ${JSON.stringify(formValidation)}`);
+    });
+
+    const lastName = document.querySelector('#lastName');
+    lastName.addEventListener("input", function (event) {
+        formValidation.lastName = genericValidation(firstNameRegex, '#lastName', '#lastNameErrorMsg', 'nom', 'lettres uniquement');
+        console.log(`formValidation ${JSON.stringify(formValidation)}`);
+    });
+
+    const address = document.querySelector('#address');
+    address.addEventListener("input", function (event) {
+        formValidation.address = genericValidation(addressRegex, '#address', '#addressErrorMsg', 'adresse', 'lettres et chiffres');
+        console.log(`formValidation ${JSON.stringify(formValidation)}`);
+    });
+
+    const city = document.querySelector('#city');
+    city.addEventListener("input", function (event) {
+        formValidation.city = genericValidation(cityRegex, '#city', '#cityErrorMsg', 'ville', 'lettres uniquement');
+        console.log(`formValidation ${JSON.stringify(formValidation)}`);
+    });
+
+    const email = document.querySelector('#email');
+    email.addEventListener("input", function (event) {
+        formValidation.email = genericValidation(emailRegex, '#email', '#emailErrorMsg', 'email', 'format nom@domaine.extension');
+        console.log(`formValidation ${JSON.stringify(formValidation)}`);
+    });
+
+
+
+
+}
+
+const formValidation = {
+    firstName: false,
+    lastName: false,
+    address: false,
+    city: false,
+    email: false
+};
+
+
+//                                                      ----------------------APPEL DES FONCTIONS ----------------------
+// FONCTION PRINCIPALE 
+function main() {
+    // rendu des éléments
+    getCart(true);
+
+    // ajout des tests de surface sur chacune des zones
+    fieldValidation();
+
+
+    // gestion de l'évènement sur bouton commander
+    btnOrder();
+
+
+}
+
+
+main();
+
