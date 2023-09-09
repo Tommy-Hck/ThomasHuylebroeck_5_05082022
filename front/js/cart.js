@@ -140,7 +140,7 @@ function cartContainer(pCartContent, pFetchContent) {
         // Mettre à jour le Local Storage avec le panier modifié
         saveCart(cart);
         window.location.href = "cart.html";
-        
+
     }
 
     changeQty.addEventListener("change", function (event) {
@@ -306,6 +306,8 @@ function main() {
 
     // gestion de l'évènement sur bouton commander
     btnOrder();
+
+
 }
 
 
@@ -330,8 +332,8 @@ function sendOrder() {
     // Je créer un tableau vide qui contiendra les ID de mes produits
     const productIds = [];
 
-    for (products of idProductsList){
-        productIds.push (products.id); //boucle for of pour ajouter mes id produits  au tableau vide censé les contenir.
+    for (products of idProductsList) {
+        productIds.push(products.id); //boucle for of pour ajouter mes id produits  au tableau vide censé les contenir.
     }
 
 
@@ -350,9 +352,22 @@ function sendOrder() {
 
     const url = 'http://localhost:3000/api/products/order'; // constante avec mon url puis fetch des données et méthode post
     fetch(url, {
+        headers: { "Content-type": "application/json" },
         method: 'POST',
         body: JSON.stringify(formData), // convertir mes données en chaîne de caractères
-    })
+    }).then(resp => resp.json())
+        // .then (function(data){
+            // console.log(data);
+        // })
+        .then((data) => {
+
+            location.href = `./confirmation.html?orderId=${data.orderId}`;
+            // passer le paramètre
+        }).catch(function (error) {
+
+            console.error(`erreur post produit ${error}`);
+        
+        })
 }
 
 main();
