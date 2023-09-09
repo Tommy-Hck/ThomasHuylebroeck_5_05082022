@@ -139,6 +139,8 @@ function cartContainer(pCartContent, pFetchContent) {
         }
         // Mettre à jour le Local Storage avec le panier modifié
         saveCart(cart);
+        window.location.href = "cart.html";
+        
     }
 
     changeQty.addEventListener("change", function (event) {
@@ -163,6 +165,7 @@ function cartContainer(pCartContent, pFetchContent) {
         if (index !== -1) { // vérifie si findIndex à bien trouvé un élément à supprimer. si -1, pas d'élément donc pas de suppression
             cart.splice(index, 1); // Supprimer l'élément du panier
             saveCart(cart);
+            window.location.href = "cart.html";
         }
     }
 
@@ -186,7 +189,7 @@ function cartContainer(pCartContent, pFetchContent) {
 //                                                                    ---------CONTROLES DE SURFACE--------
 
 
-const firstNameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/; // const nameCity?
+const firstNameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/;
 const lastNameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/;
 const addressRegex = /^[A-Za-z0-9\s-#,]+$/;
 const cityRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/;
@@ -225,14 +228,6 @@ function genericValidation(zoneRegex, qsZone, qsAlert, zoneName, wanted) {
     }
 }
 
-
-
-
-
-// const addressRegex = /^[A-Za-z0-9\s-#]+$/;
-// const cityRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/;
-// const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+.[a-zA-Z]{2,4}$/;
-
 function btnOrder() {
     // récuperer le bouton de commande
     let orderButtonEl = document.querySelector("#order");
@@ -242,17 +237,15 @@ function btnOrder() {
         // au click
         ev.preventDefault();
         if (formValidation.firstName && formValidation.lastName && formValidation.address && formValidation.city && formValidation.email) {
-            alert("Formulaire ok : maintenant poster le panier au backend");            
-            
+            // alert("Formulaire ok : maintenant poster le panier au backend");
+            sendOrder();
         }
         else {
-            alert("LE FORMULAIRE n'est pas ok");
+            alert("Merci de compléter le formulaire correctement");
         }
-       
-
-
     });
 }
+
 
 // fonction de mise en place des contrôles de surface
 function fieldValidation() {
@@ -305,7 +298,7 @@ const formValidation = {
 // FONCTION PRINCIPALE 
 function main() {
     // rendu des éléments
-    getCart(true);
+    // getCart(true);
 
     // ajout des tests de surface sur chacune des zones
     fieldValidation();
@@ -313,10 +306,53 @@ function main() {
 
     // gestion de l'évènement sur bouton commander
     btnOrder();
-
-
 }
 
 
-main();
+//Algorithme de constitution de la liste des produits :
 
+// récupérer le local storage OK
+// déclarer un tableau vide qui contiendra la liste des "id" OK
+// parcourir le local storage avec une boucle (un petit "for of" serait bienvenu) OK
+// pour chaque ligne, ajouter l'id au tableau déclaré précédement OK
+// maintenant, il ne reste plus qu'à poster l'objet constitué du contact et de la liste des produits OK
+
+function sendOrder() {
+
+    // créer des constantes qui vont récupérer les valeurs de chaque champs de mon formulaire
+    const firstName = document.querySelector('#firstName').value;
+    const lastName = document.querySelector('#lastName').value;
+    const address = document.querySelector('#address').value;
+    const city = document.querySelector('#city').value;
+    const email = document.querySelector('#email').value;
+    // Je récupère les infos de mon localstorage
+    let idProductsList = JSON.parse(localStorage.getItem('cart'));
+    // Je créer un tableau vide qui contiendra les ID de mes produits
+    const productIds = [];
+
+    for (products of idProductsList){
+        productIds.push (products.id); //boucle for of pour ajouter mes id produits  au tableau vide censé les contenir.
+    }
+
+
+    const formData = {
+
+        contact: {
+            firstName: firstName,
+            lastName: lastName,
+            address: address,
+            city: city,
+            email: email
+        }, products: productIds //
+
+    };
+
+
+    const url = 'http://localhost:3000/api/products/order'; // constante avec mon url puis fetch des données et méthode post
+    fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(formData), // convertir mes données en chaîne de caractères
+    })
+}
+
+main();
