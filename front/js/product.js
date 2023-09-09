@@ -109,5 +109,6 @@ function addToBasket(idProduct, pColor, pQuantity) { //creation d'une fonction p
   }
 
   saveCart(cart); //saveCart pour enregistrer
+  location.href = "cart.html";
 }
 

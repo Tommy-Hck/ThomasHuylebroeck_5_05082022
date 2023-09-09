@@ -3,7 +3,6 @@
 async function getCart(fetchDom) {
 
     let cart = JSON.parse(localStorage.getItem('cart'));
-    console.log(cart);
 
     let totalPrice = 0; //init du total des prix
     let totalQuantity = 0; //init du total des quantités
@@ -13,9 +12,7 @@ async function getCart(fetchDom) {
     // donc :
     if (cart !== null) {
         for (let content of cart) {
-            console.log(content);
             let productByFetch = await getProductById(content.id);
-            console.log(productByFetch);
 
             // Ajouter le prix du produit multiplié par la quantité au total
             totalPrice += productByFetch.price * content.quantity;
@@ -35,9 +32,6 @@ async function getCart(fetchDom) {
 
     const totalQuantityElement = document.querySelector("#totalQuantity");
     totalQuantityElement.textContent = totalQuantity;
-
-    console.log("total Price:", totalPrice);
-    console.log("Qté:", totalQuantity);
 }
 
 async function getProductById(pId) {
@@ -253,31 +247,30 @@ function fieldValidation() {
     const firstName = document.querySelector('#firstName');
     firstName.addEventListener("input", function (event) {
         formValidation.firstName = genericValidation(firstNameRegex, '#firstName', '#firstNameErrorMsg', 'prénom', 'lettres uniquement');
-        console.log(`formValidation ${JSON.stringify(formValidation)}`);
+        
     });
 
     const lastName = document.querySelector('#lastName');
     lastName.addEventListener("input", function (event) {
         formValidation.lastName = genericValidation(firstNameRegex, '#lastName', '#lastNameErrorMsg', 'nom', 'lettres uniquement');
-        console.log(`formValidation ${JSON.stringify(formValidation)}`);
+        
     });
 
     const address = document.querySelector('#address');
     address.addEventListener("input", function (event) {
         formValidation.address = genericValidation(addressRegex, '#address', '#addressErrorMsg', 'adresse', 'lettres et chiffres');
-        console.log(`formValidation ${JSON.stringify(formValidation)}`);
+        
     });
 
     const city = document.querySelector('#city');
     city.addEventListener("input", function (event) {
         formValidation.city = genericValidation(cityRegex, '#city', '#cityErrorMsg', 'ville', 'lettres uniquement');
-        console.log(`formValidation ${JSON.stringify(formValidation)}`);
+        
     });
 
     const email = document.querySelector('#email');
     email.addEventListener("input", function (event) {
         formValidation.email = genericValidation(emailRegex, '#email', '#emailErrorMsg', 'email', 'format nom@domaine.extension');
-        console.log(`formValidation ${JSON.stringify(formValidation)}`);
     });
 
 
@@ -357,7 +350,6 @@ function sendOrder() {
         body: JSON.stringify(formData), // convertir mes données en chaîne de caractères
     }).then(resp => resp.json())
         // .then (function(data){
-            // console.log(data);
         // })
         .then((data) => {
 
