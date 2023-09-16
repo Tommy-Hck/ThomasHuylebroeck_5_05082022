@@ -4,3 +4,5 @@ let orderId = url.searchParams.get("orderId");
 
 const orderNumber = document.querySelector('#orderId');
 orderNumber.textContent = orderId;
+
+localStorage.clear();

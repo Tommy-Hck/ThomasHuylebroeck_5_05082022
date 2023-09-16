@@ -322,8 +322,14 @@ function sendOrder() {
     const email = document.querySelector('#email').value;
     // Je récupère les infos de mon localstorage
     let idProductsList = JSON.parse(localStorage.getItem('cart'));
+
+    idProductsList.sort((a, b) => a.id - b.id);
+    console.log(idProductsList);
     // Je créer un tableau vide qui contiendra les ID de mes produits
     const productIds = [];
+
+    productIds.sort((a,b)=>a.id -b.id);
+    console.log(productIds);
 
     for (products of idProductsList) {
         productIds.push(products.id); //boucle for of pour ajouter mes id produits  au tableau vide censé les contenir.
