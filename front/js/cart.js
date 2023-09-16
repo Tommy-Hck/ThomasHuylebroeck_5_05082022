@@ -326,10 +326,13 @@ function sendOrder() {
     idProductsList.sort((a, b) => a.id - b.id);
     console.log(idProductsList);
     // Je créer un tableau vide qui contiendra les ID de mes produits
-    const productIds = [];
+    const sortId = [idProductsList];
 
-    productIds.sort((a,b)=>a.id -b.id);
-    console.log(productIds);
+    sortId.sort((a,b)=> {
+        
+        return a - b;
+    });
+    console.log(idProductsList);
 
     for (products of idProductsList) {
         productIds.push(products.id); //boucle for of pour ajouter mes id produits  au tableau vide censé les contenir.
