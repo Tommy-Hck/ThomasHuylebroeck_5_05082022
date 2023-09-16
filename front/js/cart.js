@@ -11,6 +11,11 @@ async function getCart(fetchDom) {
     // car on essaie d'itérer cart, qui est vide
     // donc :
     if (cart !== null) {
+        let test = cart.sort((a, b) => {
+            return ((a.id < b.id) ? -1 : ((a.id > b.id) ? 1 : 0));
+        });
+        
+        // Je créer un tableau vide qui contiendra les ID de mes produits
         for (let content of cart) {
             let productByFetch = await getProductById(content.id);
 
@@ -24,6 +29,10 @@ async function getCart(fetchDom) {
                 cartContainer(content, productByFetch);
             }
         }
+
+    } else if (cart === null){
+        let emptyCart= document.querySelector('h1');
+        emptyCart.textContent = 'Votre panier est vide';
     }
 
     // Afficher le prix total dans l'élément du DOM"
@@ -46,8 +55,6 @@ async function getProductById(pId) {
 
 
 //                                                      ----------------------APPEL DES FONCTIONS ----------------------
-
-getCart(true);
 
 
 
@@ -247,25 +254,25 @@ function fieldValidation() {
     const firstName = document.querySelector('#firstName');
     firstName.addEventListener("input", function (event) {
         formValidation.firstName = genericValidation(firstNameRegex, '#firstName', '#firstNameErrorMsg', 'prénom', 'lettres uniquement');
-        
+
     });
 
     const lastName = document.querySelector('#lastName');
     lastName.addEventListener("input", function (event) {
         formValidation.lastName = genericValidation(firstNameRegex, '#lastName', '#lastNameErrorMsg', 'nom', 'lettres uniquement');
-        
+
     });
 
     const address = document.querySelector('#address');
     address.addEventListener("input", function (event) {
         formValidation.address = genericValidation(addressRegex, '#address', '#addressErrorMsg', 'adresse', 'lettres et chiffres');
-        
+
     });
 
     const city = document.querySelector('#city');
     city.addEventListener("input", function (event) {
         formValidation.city = genericValidation(cityRegex, '#city', '#cityErrorMsg', 'ville', 'lettres uniquement');
-        
+
     });
 
     const email = document.querySelector('#email');
@@ -291,7 +298,7 @@ const formValidation = {
 // FONCTION PRINCIPALE 
 function main() {
     // rendu des éléments
-    // getCart(true);
+    getCart(true);
 
     // ajout des tests de surface sur chacune des zones
     fieldValidation();
@@ -323,16 +330,14 @@ function sendOrder() {
     // Je récupère les infos de mon localstorage
     let idProductsList = JSON.parse(localStorage.getItem('cart'));
 
-    idProductsList.sort((a, b) => a.id - b.id);
-    console.log(idProductsList);
-    // Je créer un tableau vide qui contiendra les ID de mes produits
-    const sortId = [idProductsList];
 
-    sortId.sort((a,b)=> {
-        
-        return a - b;
-    });
-    console.log(idProductsList);
+    const productIds = [];
+
+    // sortId.sort((a,b)=> {
+
+    //     return a - b;
+    // });
+    // console.log(idProductsList);
 
     for (products of idProductsList) {
         productIds.push(products.id); //boucle for of pour ajouter mes id produits  au tableau vide censé les contenir.
@@ -367,7 +372,7 @@ function sendOrder() {
         }).catch(function (error) {
 
             console.error(`erreur post produit ${error}`);
-        
+
         })
 }
 
