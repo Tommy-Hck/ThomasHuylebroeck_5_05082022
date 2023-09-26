@@ -1,5 +1,5 @@
 //récupérer les données serveur (fetch)
-async function getProducts() {
+async function getProducts() {  //fonction async. l'expression await interrompt l'exe de la fx et attend la reso de la promise. La fonction reprend ensuite et renvoie la valeur
     return await fetch("http://localhost:3000/api/products")
         .then((response) => response.json())
         .then((data) => { return data });

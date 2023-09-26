@@ -5,7 +5,7 @@ let id = url.searchParams.get("id");
 if (id == null) {
 
   alert("Pas d'appel de product.html");
-  // window.location.href = "http://www.disney.fr";
+  // window.location.href = "http://www.openclassrooms.fr";
 }
 console.log(`mon id = ${id}`);
 
@@ -70,7 +70,7 @@ function sofaContent(pProductLine) {
   quantity.addEventListener('change', (ev) => {
     if (quantity.value < 1 || quantity.value > 100) {
       alert("veuillez entrer une quantité entre 1 et 100");
-      alert(quantity.value);
+      // alert(quantity.value);
       return;
 
     }
